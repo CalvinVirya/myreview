@@ -1,69 +1,33 @@
-import { useEffect, useState } from "react";
-import Header from "./Header";
-import Searchbar from "./Searchbar";
-import { ChevronLeft, ChevronRight } from "react-feather";
+import React from "react";
+import Slide from "./Slide";
 
-function Hero({
-  children: slides,
-  autoSlide = false,
-  autoSlideInterval = 5000,
-}) {
-  const [curr, setCurr] = useState(0);
+const hero2 =
+  "https://images.pexels.com/photos/1640772/pexels-photo-1640772.jpeg";
+const hero1 =
+  "https://images.pexels.com/photos/941864/pexels-photo-941864.jpeg";
+const hero3 = "https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg";
+const hero4 =
+  "https://images.pexels.com/photos/3411135/pexels-photo-3411135.jpeg";
+const hero5 =
+  "https://images.pexels.com/photos/3807799/pexels-photo-3807799.jpeg";
 
-  // Go to previous slide with wrap-around
-  const prev = () =>
-    setCurr((curr) => (curr === 0 ? slides.length - 1 : curr - 1));
+const slides = [hero1, hero2, hero3, hero4, hero5];
 
-  // Go to next slide with wrap-around
-  const next = () =>
-    setCurr((curr) => (curr === slides.length - 1 ? 0 : curr + 1));
-
-  useEffect(() => {
-    if (!autoSlide) return;
-    const slideInterval = setInterval(next, autoSlideInterval);
-    return () => clearInterval(slideInterval);
-  }, []);
-
+const Hero = () => {
   return (
-    <div className="overflow-hidden relative">
-      <div className="absolute top-0 left-0 z-20">
-        <Header />
-      </div>
-      <div
-        className="flex transition-transform ease-out duration-500"
-        style={{ transform: `translateX(-${curr * 100}%)` }}>
-        {slides}
-        {/* salah naro div disini */}
-      </div>
-      <div className="absolute inset-0 flex items-center justify-center">
-        <Searchbar />
-      </div>
-      <div className="absolute bottom-4 right-0 left-0">
-        <div className="flex items-center justify-center gap-2">
-          <button className="px-13 py-5 bg-ivy rounded-2xl montserrat-regular text-first-frost">
-            Explore Now
-          </button>
-          <button
-            className="rounded-lg p-1 shadow bg-white/80 text-gray-800 hover:bg-white"
-            onClick={prev}>
-            <ChevronLeft size={16} />
-          </button>
-          {slides.map((_, i) => (
-            <div
-              className={`transition-all w-3 h-3 bg-white rounded-full ${
-                curr === i ? "p-2" : "opacity-50"
-              }`}
+    <div>
+      <Slide autoSlide={true}>
+        {slides.map((s, i) => (
+          <div key={i} className="w-screen h-140">
+            <img
+              src={s}
+              className="w-full h-full min-w-screen object-cover brightness-30 z-0"
             />
-          ))}
-          <button
-            className="p-1 rounded-lg shadow bg-white/80 text-gray-800 hover:bg-white"
-            onClick={next}>
-            <ChevronRight size={16} />
-          </button>
-        </div>
-      </div>
+          </div>
+        ))}
+      </Slide>
     </div>
   );
-}
+};
 
 export default Hero;
