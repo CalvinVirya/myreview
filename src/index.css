@@ -9,8 +9,10 @@
   --color-chrysler-cottonwood-gray: #595959;
 }
 
-:root {
-  background-color: black;
+@font-face {
+  font-family: "Montserrat";
+  src: url("./fonts/Montserrat-Thin.ttf");
+  font-weight: 100;
 }
 
 @font-face {
@@ -35,6 +37,11 @@
   font-family: "Montserrat";
   src: url("./fonts/Montserrat-Bold.ttf");
   font-weight: 700;
+}
+
+.montserrat-thin {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 100;
 }
 
 .montserrat-regular {

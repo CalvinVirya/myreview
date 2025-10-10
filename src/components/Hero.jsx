@@ -18,10 +18,10 @@ const Hero = () => {
     <div>
       <Slide autoSlide={true}>
         {slides.map((s, i) => (
-          <div key={i} className="w-screen h-140">
+          <div key={i} className="h-140 w-screen">
             <img
               src={s}
-              className="w-full h-full min-w-screen object-cover brightness-30 z-0"
+              className="w-full h-full min-w-screen object-cover brightness-30"
             />
           </div>
         ))}
