@@ -1,9 +1,11 @@
 import React from "react";
 import { ThumbsUp, Frown, Award } from "react-feather";
+import HandleGetImage from "../lib/HandleGetImage";
 
 const ReviewBox = ({
   reviewTitle = "No Title",
   reviewDescription = "No Description",
+  reviewImage = null,
 }) => {
   return (
     <div className="border-khaki-linen border-1 w-100 rounded-2xl">
@@ -18,15 +20,16 @@ const ReviewBox = ({
           <p className="text-chrysler-cottonwood-gray text-sm">1 minutes ago</p>
         </div>
       </div>
-      <img
-        className="h-40 w-full object-cover"
-        src="https://images.pexels.com/photos/1583884/pexels-photo-1583884.jpeg"
-        alt=""
-      />
+      {reviewImage && (
+        <img className="h-40 w-full object-cover" src={reviewImage} alt="" />
+      )}
+
       <div className="mx-6 mt-4 flex flex-col gap-2">
         <p className="montserrat-semibold">{reviewTitle}</p>
         <div className="bg-gray-400 h-5"></div>
-        <p className="montserrat-regular text-sm line-clamp-3">{reviewDescription}</p>
+        <p className="montserrat-regular text-sm line-clamp-3">
+          {reviewDescription}
+        </p>
       </div>
       <div className="flex justify-around h-18 items-center border-t-1 border-khaki-linen mt-4 rounded-b-2xl">
         <ThumbsUp />

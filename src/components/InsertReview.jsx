@@ -4,6 +4,8 @@ import HandleInsertReview from "../lib/HandleInsertReview";
 const InsertReview = () => {
   const [reviewTitle, setReviewTitle] = useState(""); // declare
   const [reviewDescription, setReviewDescription] = useState("");
+  const [reviewImage, setReviewImage] = useState(null);
+
   return (
     <section className="w-140 m-20 flex flex-col gap-4">
       <form className="flex flex-col gap-4" action="">
@@ -19,11 +21,21 @@ const InsertReview = () => {
           onChange={(e) => setReviewDescription(e.target.value)}
           type="text"
         />
-        <input type="file" name="" id="" />
+        <input
+          type="file"
+          name="reviewImage"
+          id="ReviewUploader"
+          onChange={setReviewImage}
+        />
       </form>
       <button
         type="submit"
-        onClick={() => HandleInsertReview(reviewTitle, reviewDescription)}
+        onClick={() => {
+          HandleInsertReview(reviewTitle, reviewDescription, reviewImage);
+          setReviewTitle("");
+          setReviewDescription("");
+          setSelectedFile(null);
+        }}
         className="w-35 h-14 bg-ivy rounded-2xl montserrat-regular text-first-frost">
         Login
       </button>

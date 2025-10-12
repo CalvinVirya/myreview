@@ -28,6 +28,7 @@ const RecentReviews = () => {
         {reviews.map((review) => (
           <ReviewBox
             key={review.$id}
+            reviewImage={review.imageLink}
             reviewTitle={review.title}
             reviewDescription={review.description}
           />
