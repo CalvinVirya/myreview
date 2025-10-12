@@ -9,14 +9,14 @@ const tablesDB = new TablesDB(client);
 async function HandleInsertReview(title, description) {
   try {
     const promise = tablesDB.createRow(
-      "68e8f518002b506dd8c1",
-      "reviews",
+      import.meta.env.VITE_APPWRITE_DATABASE_ID,
+      import.meta.env.VITE_APPWRITE_TABLE_ID,
       ID.unique(),
-      {title, description}
+      { title, description }
     );
   } catch (error) {
     console.log(error);
   }
 }
 
-export default HandleInsertReview
+export default HandleInsertReview;

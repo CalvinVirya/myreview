@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import HandleInsertReview from "../lib/HandleInsertReview";
 
 const InsertReview = () => {
-  const [reviewTitle, setReviewTitle] = useState("");
+  const [reviewTitle, setReviewTitle] = useState(""); // declare
   const [reviewDescription, setReviewDescription] = useState("");
   return (
     <section className="w-140 m-20 flex flex-col gap-4">

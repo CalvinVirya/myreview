@@ -1,12 +1,15 @@
 import React from "react";
 import { ThumbsUp, Frown, Award } from "react-feather";
 
-const ReviewBox = () => {
+const ReviewBox = ({
+  reviewTitle = "No Title",
+  reviewDescription = "No Description",
+}) => {
   return (
-    <div className="bg-khaki-linen w-106 rounded-2xl">
+    <div className="border-khaki-linen border-1 w-100 rounded-2xl">
       <div className="flex items-center gap-2 py-6">
         <img
-          className="rounded-full object-cover w-16 h-16 mx-6"
+          className="rounded-full object-cover w-16 h-16 ml-6"
           src="https://images.pexels.com/photos/3619972/pexels-photo-3619972.jpeg"
           alt=""
         />
@@ -21,14 +24,11 @@ const ReviewBox = () => {
         alt=""
       />
       <div className="mx-6 mt-4 flex flex-col gap-2">
-        <p className="montserrat-semibold">Warung Bude Binus</p>
-        <div className="bg-white h-5"></div>
-        <p className="montserrat-regular text-sm">
-          Wah enak banget cuy, tapi agak bau rokok ya... cuman kalo kalian cari
-          makanan yang murah dan bergizi telor dadar disini enak banget rasanya.
-        </p>
+        <p className="montserrat-semibold">{reviewTitle}</p>
+        <div className="bg-gray-400 h-5"></div>
+        <p className="montserrat-regular text-sm line-clamp-3">{reviewDescription}</p>
       </div>
-      <div className="flex justify-around h-18 items-center bg-first-frost mt-4 rounded-b-2xl">
+      <div className="flex justify-around h-18 items-center border-t-1 border-khaki-linen mt-4 rounded-b-2xl">
         <ThumbsUp />
         <Frown />
         <Award />
