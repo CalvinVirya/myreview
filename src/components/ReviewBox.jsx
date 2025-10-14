@@ -21,7 +21,7 @@ const ReviewBox = ({
         </div>
       </div>
       {reviewImage && (
-        <img className="h-40 w-full object-cover" src={reviewImage} alt="" />
+        <img className="h-40 object-contain w-full" src={reviewImage} alt="" />
       )}
 
       <div className="mx-6 mt-4 flex flex-col gap-2">

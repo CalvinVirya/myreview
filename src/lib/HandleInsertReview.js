@@ -17,7 +17,7 @@ async function HandleInsertReview(title, description, imageFile) {
       const uploadedImage = await HandleInsertImage();
       imageId = uploadedImage;
       const uploadedImageLink = await HandleGetImage(imageId);
-      imageLink = uploadedImageLink
+      imageLink = uploadedImageLink;
     } catch (error) {
       console.log(error);
     }
@@ -30,6 +30,7 @@ async function HandleInsertReview(title, description, imageFile) {
       ID.unique(),
       { title, description, imageLink }
     );
+    console.log("alamak");
   } catch (error) {
     console.log(error);
   }
