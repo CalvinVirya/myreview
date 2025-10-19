@@ -24,7 +24,7 @@ const RecentReviews = () => {
           Recent Reviews
         </p>
       </div>
-      <div className="grid grid-flow-row grid-cols-4 gap-6 items-start">
+      <div className="grid grid-cols-4 gap-6 items-start">
         {reviews.map((review) => (
           <ReviewBox
             key={review.$id}
