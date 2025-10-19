@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import HandleAuth from "../lib/HandleAuth";
-import HandleCreateSession from "../lib/HandleCreateSession";
 import HandleListSession from "../lib/HandleListSession";
 import HandleDeleteSessions from "../lib/HandleDeleteSessions";
+import HandleGoogle from "../lib/HandleGoogle";
 
 const InsertAccount = () => {
   const [email, setEmail] = useState(""); // declare
@@ -10,7 +10,7 @@ const InsertAccount = () => {
   const [username, setUsername] = useState("");
 
   return (
-    <section className="w-140 m-20 flex flex-col gap-4">
+    <section className="flex flex-col gap-4">
       <form className="flex flex-col gap-4" action="">
         <input
           className="border-black rounded-md border"
@@ -57,6 +57,12 @@ const InsertAccount = () => {
         }}
         className="w-35 h-14 bg-ivy rounded-2xl montserrat-regular text-first-frost">
         Log Out
+      </button>
+      <button
+        type=""
+        className="w-35 h-14 bg-ivy rounded-2xl montserrat-regular text-first-frost"
+        onClick={() => HandleGoogle()}>
+        Google
       </button>
     </section>
   );

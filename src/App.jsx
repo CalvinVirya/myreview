@@ -1,15 +1,9 @@
-import Hero from "./components/Hero";
-import RecentReviews from "./components/RecentReviews";
-import InsertReview from "./components/InsertReview";
-import InsertAccount from "./components/InsertAccount";
+import Home from "./pages/Home";
 
 function App() {
   return (
     <>
-      <Hero />
-      <RecentReviews />
-      <InsertReview />
-      <InsertAccount />
+      <Home />
     </>
   );
 }

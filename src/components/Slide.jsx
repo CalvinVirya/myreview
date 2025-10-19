@@ -24,7 +24,7 @@ function Slide({
 
   return (
     <div className="overflow-hidden relative">
-      <div className="absolute top-0 left-0 z-20">
+      <div className="absolute top-0 left-0 z-1">
         <Header />
       </div>
       <div
