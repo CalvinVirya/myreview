@@ -1,39 +1,53 @@
 import { Fragment, useState } from "react";
 import logo from "../assets/logo.svg";
 import Modal from "./Modal";
+import { Link, useLocation } from "react-router-dom";
 Modal;
 
 function Header() {
   const [showModal, setShowModal] = useState(false);
+  const location = useLocation();
+
+  const headerClassName =
+    location.pathname === "/"
+      ? "flex justify-between bg-transparent w-screen items-center px-12 py-12 absolute top-0 left-0"
+      : "flex justify-between bg-spring w-screen items-center px-12 py-12";
+
+  const ulClassName =
+    location.pathname === "/"
+      ? "flex space-x-8 text-first-frost montserrat-semibold"
+      : "flex space-x-8 montserrat-semibold";
+
   return (
     <Fragment>
-      <header className="flex justify-between bg-transparent w-screen items-center px-12 py-12 absolute top-0 left-0">
+      <header className={headerClassName}>
         <img src={logo} alt="" className="h-15" />
         <nav>
-          <ul className="flex space-x-8 text-first-frost montserrat-semibold">
+          <ul className={ulClassName}>
             <li>
-              <a href="#">Home</a>
+              <Link to="/">Home</Link>
             </li>
             <li>
-              <a href="#">Business Mode</a>
+              <Link to="/business-mode">Business Mode</Link>
             </li>
             <li>
-              <a href="#">About Us</a>
+              <Link to="/about-us">About Us</Link>
             </li>
             <li>
-              <a href="#">Categories</a>
+              <Link to="/categories">Categories</Link>
             </li>
             <li>
-              <a href="#">Nearby</a>
+              <Link to="/nearby">Nearby</Link>
             </li>
             <li>
-              <a href="#">Bookmark</a>
+              <Link to="/bookmark">Bookmark</Link>
             </li>
           </ul>
         </nav>
         <button
           className="py-2 px-6 bg-ivy rounded-2xl montserrat-regular text-first-frost cursor-pointer"
-          onClick={() => setShowModal(true)}>
+          onClick={() => setShowModal(true)}
+        >
           Login
         </button>
       </header>
