@@ -32,7 +32,7 @@ function Header() {
           </ul>
         </nav>
         <button
-          className="w-35 h-14 bg-ivy rounded-2xl montserrat-regular text-first-frost"
+          className="py-2 px-6 bg-ivy rounded-2xl montserrat-regular text-first-frost cursor-pointer"
           onClick={() => setShowModal(true)}>
           Login
         </button>

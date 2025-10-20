@@ -47,7 +47,7 @@ function Slide({
       <div className="absolute px-12 bottom-12 right-0 left-0 ">
         <div className="flex items-center justify-between">
           <button
-            className="px-13 py-5 bg-ivy rounded-2xl montserrat-regular text-first-frost"
+            className="py-2 px-6 bg-ivy rounded-2xl montserrat-regular text-first-frost cursor-pointer"
             onClick={() =>
               alert(`Tombol pada slide indeks ke-${curr} diklik!`)
             }>
@@ -55,7 +55,7 @@ function Slide({
           </button>
           <div className="flex items-center gap-2">
             <button
-              className="rounded-lg p-1 shadow bg-white/80 text-gray-800 hover:bg-white"
+              className="rounded-lg p-1 shadow bg-white/80 text-gray-800 hover:bg-white cursor-pointer"
               onClick={prev}>
               <ChevronLeft size={16} />
             </button>
@@ -67,7 +67,7 @@ function Slide({
               />
             ))}
             <button
-              className="p-1 rounded-lg shadow bg-white/80 text-gray-800 hover:bg-white"
+              className="p-1 rounded-lg shadow bg-white/80 text-gray-800 hover:bg-white cursor-pointer"
               onClick={next}>
               <ChevronRight size={16} />
             </button>
