@@ -8,7 +8,8 @@ const ReviewBox = ({
   reviewImage = null,
 }) => {
   return (
-    <div className="border-khaki-linen border-1 w-100 rounded-2xl">
+    // TODO: disini masih ada yang harus dibenerin karena kalo dikecilin dia gepeng nanti
+    <div className="border border-khaki-linen rounded-2xl">
       <div className="flex items-center gap-2 py-6">
         <img
           className="rounded-full object-cover w-16 h-16 ml-6"
