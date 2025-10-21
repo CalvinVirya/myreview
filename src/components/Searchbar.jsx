@@ -14,8 +14,6 @@ const Searchbar = () => {
           <Search />
         </button>
       </div>
-      {/* <div className="absolute top-20 p-4 bg-first-frost text-chrysler-cottonwood-gray w-full rounded-xl left-0.5 -translate-0.5 flex flex-col gap-2">
-      </div> */}
     </form>
   );
 };

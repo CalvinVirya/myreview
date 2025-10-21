@@ -18,7 +18,7 @@ const Hero = () => {
     <div>
       <Slide autoSlide={true}>
         {slides.map((s, i) => (
-          <div key={i} className="h-140 w-screen">
+          <div key={i} className="h-140 w-screen object-contain">
             <img
               src={s}
               className="w-full h-full min-w-screen object-cover brightness-30"

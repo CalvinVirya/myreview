@@ -29,34 +29,37 @@ function Slide({
       </div>
       <div
         className="flex transition-transform ease-out duration-500"
-        style={{ transform: `translateX(-${curr * 100}%)` }}>
+        style={{ transform: `translateX(-${curr * 100}%)` }}
+      >
         {slides}
       </div>
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-12">
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-5">
         <div className="flex flex-col items-center justify-center gap-4">
-          <p className="text-[32px] montserrat-semibold text-first-frost max-w-110">
+          <p className="text-[32px] montserrat-semibold text-first-frost sm:max-w-110 px-4">
             McDonalds
           </p>
-          <p className="text-base montserrat-regular text-first-frost max-w-110 text-center">
+          <p className="text-base montserrat-regular text-first-frost sm:max-w-110 text-center px-4">
             McDonald’s is a global fast-food chain famous for its hamburgers,
             French fries, and Golden Arches logo.
           </p>
         </div>
-        <Searchbar />
+        <div className="w-full flex justify-center items-center px-4 mb-3">
+          <Searchbar />
+        </div>
       </div>
-      <div className="absolute px-12 bottom-12 right-0 left-0 ">
-        <div className="flex items-center justify-between">
+      <div className="absolute px-12 bottom-12 right-0 left-0">
+        <div className="flex flex-col-reverse gap-3 items-center sm:flex-row sm:justify-between">
           <button
-            className="py-2 px-6 bg-ivy rounded-2xl montserrat-regular text-first-frost cursor-pointer"
-            onClick={() =>
-              alert(`Tombol pada slide indeks ke-${curr} diklik!`)
-            }>
+            className="py-2 px-6 bg-ivy rounded-md montserrat-regular text-first-frost cursor-pointer w-full sm:w-auto"
+            onClick={() => alert(`Tombol pada slide indeks ke-${curr} diklik!`)}
+          >
             Explore Now
           </button>
           <div className="flex items-center gap-2">
             <button
               className="rounded-lg p-1 shadow bg-white/80 text-gray-800 hover:bg-white cursor-pointer"
-              onClick={prev}>
+              onClick={prev}
+            >
               <ChevronLeft size={16} />
             </button>
             {slides.map((_, i) => (
@@ -68,7 +71,8 @@ function Slide({
             ))}
             <button
               className="p-1 rounded-lg shadow bg-white/80 text-gray-800 hover:bg-white cursor-pointer"
-              onClick={next}>
+              onClick={next}
+            >
               <ChevronRight size={16} />
             </button>
           </div>
