@@ -6,6 +6,24 @@ const client = new Client()
 
 const storage = new Storage(client);
 
+async function HandleGetImage(fileId) {
+  //   console.log(fileId);
+  if (!fileId) {
+    return null;
+  }
+
+  try {
+    const result = storage.getFileView({
+      bucketId: import.meta.env.VITE_APPWRITE_BUCKET_ID,
+      fileId: fileId,
+    });
+    return result;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
 async function HandleInsertImage() {
   try {
     let result = await storage.createFile({
@@ -13,13 +31,10 @@ async function HandleInsertImage() {
       fileId: ID.unique(),
       file: document.getElementById("ReviewUploader").files[0],
     });
-    console.log(result.$id)
     return result.$id;
   } catch (error) {
     console.log(error);
   }
 }
 
-// console.log(result);
-
-export default HandleInsertImage;
+export { HandleGetImage, HandleInsertImage };

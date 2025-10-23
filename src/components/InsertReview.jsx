@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import HandleInsertReview from "../lib/HandleInsertReview";
+import { HandleInsertReview } from "../lib/ReviewController";
 
 const InsertReview = () => {
   const [reviewTitle, setReviewTitle] = useState(""); // declare

@@ -1,8 +1,10 @@
 import React from "react";
 import { ThumbsUp, Frown, Award } from "react-feather";
-import HandleGetImage from "../lib/HandleGetImage";
 
 const ReviewBox = ({
+  profilePicture = null,
+  username = "No Username",
+  uploadTIme = "No Upload Time",
   reviewTitle = "No Title",
   reviewDescription = "No Description",
   reviewImage = null,
@@ -13,12 +15,12 @@ const ReviewBox = ({
       <div className="flex items-center gap-2 py-6">
         <img
           className="rounded-full object-cover w-16 h-16 ml-6"
-          src="https://images.pexels.com/photos/3619972/pexels-photo-3619972.jpeg"
+          src={profilePicture}
           alt=""
         />
         <div>
-          <p className="montserrat-regular">Rayden Blezworth Arwan</p>
-          <p className="text-chrysler-cottonwood-gray text-sm">1 minutes ago</p>
+          <p className="montserrat-regular">{username}</p>
+          <p className="text-chrysler-cottonwood-gray text-sm">{uploadTIme}</p>
         </div>
       </div>
       {reviewImage && (

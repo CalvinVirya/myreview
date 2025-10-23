@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReviewBox from "./ReviewBox";
-import HandleListReview from "../lib/HandleListReview";
+import { HandleListReview } from "../lib/ReviewController";
 
 const RecentReviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -28,6 +28,9 @@ const RecentReviews = () => {
         {reviews.map((review) => (
           <ReviewBox
             key={review.$id}
+            username={review.users.username}
+            profilePicture={review.users.profilePicture}
+            uploadTIme={review.$createdAt}
             reviewImage={review.imageLink}
             reviewTitle={review.title}
             reviewDescription={review.description}
