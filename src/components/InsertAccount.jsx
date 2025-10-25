@@ -99,9 +99,8 @@ const InsertAccount = () => {
       <button
         type=""
         onClick={() => {
-          HandleDeleteSessions();
           sessionStorage.setItem("userId", "");
-          sessionStorage.setItem("authId", "");
+          HandleDeleteSessions();
         }}
         className="w-35 h-14 bg-ivy rounded-2xl montserrat-regular text-first-frost">
         Log Out

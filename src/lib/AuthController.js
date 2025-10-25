@@ -19,9 +19,15 @@ const tablesDB = new TablesDB(client);
 async function HandleGetUser() {
   try {
     const result = await account.get();
-    console.log(result.$id);
-    sessionStorage.setItem("authId", result.$id);
-    HandleGetUserId(result.$id);
+    const existing = await tablesDB.listRows({
+      databaseId: import.meta.env.VITE_APPWRITE_DATABASE_ID,
+      tableId: import.meta.env.VITE_APPWRITE_TABLE_ID_USER,
+      queries: [Query.equal("userId", [result.$id])],
+    });
+    if (existing.rows.length === 0) {
+      await HandleInsertUser(result.$id, result.name);
+    }
+    await HandleGetUserId(result.$id);
     return result.$id;
   } catch (error) {
     console.log(error);
@@ -38,7 +44,7 @@ async function HandleGetUserId(userId) {
       queries: [Query.equal("userId", [userId])],
     });
     sessionStorage.setItem("userId", result.rows[0].$id);
-    console.log(result.rows[0].$id);
+    // console.log(result.rows[0].$id);
   } catch (error) {
     console.log(error);
   }
@@ -54,8 +60,13 @@ async function HandleInsertUser(userId, username) {
       ID.unique(),
       { userId, profilePicture, username }
     );
+    sessionStorage.setItem("userId", result.$id);
   } catch (error) {
-    console.log(error);
+    if (error.message.includes("duplicate") || error.code === 409) {
+      console.log("User already exists, skipping insert");
+    } else {
+      console.log(error);
+    }
   }
 }
 
@@ -65,7 +76,6 @@ async function HandleCreateSession(email, password) {
       email: email,
       password: password,
     });
-    HandleGetUser();
   } catch (error) {
     console.log(error);
   }
@@ -80,7 +90,6 @@ async function HandleAuth(email, password, username) {
       name: username,
     });
     HandleCreateSession(email, password);
-    HandleInsertUser(result.$id, result.name);
     console.log(result.$id);
   } catch (error) {
     console.log(error);
@@ -112,7 +121,6 @@ async function HandleGoogle() {
     success: "http://localhost:5173", // redirect here on success
     failure: "http://localhost:5173", // redirect here on failure
   });
-  HandleGetUser();
 }
 
 export {
