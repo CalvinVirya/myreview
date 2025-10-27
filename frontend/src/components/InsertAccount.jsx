@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import GoogleIcon from "../assets/google-logo.png";
 import AppLogo from "../assets/logo.svg";
-import { insertUsers } from "../lib/userController";
+import { insertUsers, verifyUser } from "../lib/userController";
 
 const InsertAccount = () => {
   const [email, setEmail] = useState(""); // declare
@@ -57,7 +57,7 @@ const InsertAccount = () => {
           if (!isSignIn) {
             insertUsers(username, email, password);
           } else {
-            // HandleCreateSession(email, password);
+            verifyUser(email, password);
           }
           setEmail("");
           setPassword("");

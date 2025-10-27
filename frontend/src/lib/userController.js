@@ -20,4 +20,21 @@ async function insertUsers(name, email, password) {
   axios.post("http://localhost:3000/users", postObject);
 }
 
-export { fetchUsers, insertUsers };
+async function verifyUser(email, password) {
+  let postObject = {
+    email: email,
+    password: password,
+  };
+  const response = await axios.post(
+    "http://localhost:3000/users/login",
+    postObject
+  );
+//   console.log(response.data.user);
+  if (response.data.success) {
+    return response.data.user;
+  } else {
+    throw new Error(response.statusText);
+  }
+}
+
+export { fetchUsers, insertUsers, verifyUser };

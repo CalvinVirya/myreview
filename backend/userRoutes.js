@@ -1,8 +1,10 @@
 const express = require("express");
 const database = require("./connect");
 const ObjectId = require("mongodb").ObjectId;
+const bcrypt = require("bcrypt");
 
 let userRoutes = express.Router();
+const SALT_ROUNDS = 6;
 
 userRoutes.route("/users").get(async (req, res) => {
   let db = database.getDb();
@@ -27,15 +29,43 @@ userRoutes.route("/users/:id").get(async (req, res) => {
 
 userRoutes.route("/users").post(async (req, res) => {
   let db = database.getDb();
-  let mongoObject = {
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-    joinDate: new Date(),
-    reviews: [],
-  };
-  let data = await db.collection("users").insertOne(mongoObject);
-  res.json(data);
+
+  const takenEmail = await db
+    .collection("users")
+    .findOne({ email: req.body.email });
+
+  if (takenEmail) {
+    res.json({ message: "Email is taken" });
+  } else {
+    const hash = await bcrypt.hash(req.body.password, SALT_ROUNDS);
+
+    let mongoObject = {
+      name: req.body.name,
+      email: req.body.email,
+      password: hash,
+      joinDate: new Date(),
+      reviews: [],
+    };
+    let data = await db.collection("users").insertOne(mongoObject);
+    res.json(data);
+  }
+});
+
+userRoutes.route("/users/login").post(async (req, res) => {
+  let db = database.getDb();
+
+  const user = await db.collection("users").findOne({ email: req.body.email });
+
+  if (user) {
+    let confirmation = bcrypt.compare(req.body.password, user.password);
+    if (confirmation) {
+      res.json({ success: true, user });
+    } else {
+      res.json({ success: false, message: "Incorrect password" });
+    }
+  } else {
+    res.json({ success: false, message: "User not found" });
+  }
 });
 
 userRoutes.route("/users:id").put(async (req, res) => {
