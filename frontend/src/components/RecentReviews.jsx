@@ -24,7 +24,7 @@ const RecentReviews = () => {
         {reviews.map((review) => (
           <ReviewBox
             key={review._id}
-            // username={review.users.username}
+            username={review.name}
             // profilePicture={review.users.profilePicture}
             uploadTIme={review.dateCreated}
             // reviewImage={review.imageLink}

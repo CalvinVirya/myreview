@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import GoogleIcon from "../assets/google-logo.png";
 import AppLogo from "../assets/logo.svg";
 import { insertUsers, verifyUser } from "../lib/userController";
+import axios from "axios";
 
 const InsertAccount = () => {
   const [email, setEmail] = useState(""); // declare
@@ -53,11 +54,19 @@ const InsertAccount = () => {
       </form>
       <button
         type="submit"
-        onClick={() => {
+        onClick={async () => {
           if (!isSignIn) {
             insertUsers(username, email, password);
           } else {
-            verifyUser(email, password);
+            let response = await verifyUser(email, password);
+            if (response) {
+              sessionStorage.setItem("User", response);
+              axios.defaults.headers.common[
+                "Authorization"
+              ] = `Bearer ${response}`;
+            } else {
+              alert("Login failed");
+            }
           }
           setEmail("");
           setPassword("");

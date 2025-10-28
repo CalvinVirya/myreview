@@ -5,8 +5,15 @@ import BussinessMode from "./pages/BussinessMode";
 import Bookmark from "./pages/Bookmark";
 import AboutUs from "./pages/AboutUs";
 import { Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
 
 function App() {
+  useEffect(() => {
+    let token = sessionStorage.getItem("User");
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }, []);
+
   return (
     <Routes>
       <Route path="/" element={<Home />} />
