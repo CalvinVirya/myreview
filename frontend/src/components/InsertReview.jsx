@@ -25,14 +25,15 @@ const InsertReview = () => {
           type="file"
           name="reviewImage"
           id="ReviewUploader"
-          onChange={setReviewImage}
+          onChange={(e) => setReviewImage(e.target.files[0])}
         />
       </form>
       <button
         type="submit"
         onClick={() => {
           // HandleInsertReview(reviewTitle, reviewDescription, reviewImage);
-          insertReview(reviewTitle, reviewDescription);
+          console.log(reviewImage);
+          insertReview(reviewTitle, reviewDescription, reviewImage);
           setReviewTitle("");
           setReviewDescription("");
           setReviewImage(null);

@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const reviews = require("./reviewRoutes");
 const users = require("./userRoutes");
+const multer = require("multer");
 
 const app = express();
 const PORT = 3000;

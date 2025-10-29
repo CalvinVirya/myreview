@@ -27,7 +27,7 @@ const RecentReviews = () => {
             username={review.name}
             // profilePicture={review.users.profilePicture}
             uploadTIme={review.dateCreated}
-            // reviewImage={review.imageLink}
+            reviewImage={review.imageUrl}
             reviewTitle={review.title}
             reviewDescription={review.description}
           />

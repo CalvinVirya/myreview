@@ -10,13 +10,32 @@ async function fetchReviews() {
   }
 }
 
-async function insertReview(title, description) {
+async function insertReview(title, description, image) {
   let postObject = {
     title: title,
     description: description,
     dateCreated: new Date(),
   };
+  if (image) {
+    const url = await insertImage(image);
+    postObject.imageUrl = url;
+  }
   axios.post("http://localhost:3000/reviews", postObject);
 }
 
-export { fetchReviews, insertReview };
+async function insertImage(file) {
+  const formData = new FormData();
+  formData.append("image", file);
+  const response = await axios.post(
+    "http://localhost:3000/reviews/image",
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+  return response.data.url;
+}
+
+export { fetchReviews, insertReview, insertImage };
