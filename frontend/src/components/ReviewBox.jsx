@@ -3,6 +3,7 @@ import { ThumbsUp, Frown, Award } from "react-feather";
 
 const ReviewBox = ({
   profilePicture = null,
+  userImage = "",
   username = "No Username",
   uploadTIme = "No Upload Time",
   reviewTitle = "No Title",
@@ -15,7 +16,7 @@ const ReviewBox = ({
       <div className="flex items-center gap-2 py-6">
         <img
           className="rounded-full object-cover w-16 h-16 ml-6"
-          src={profilePicture}
+          src={userImage}
           alt=""
         />
         <div>

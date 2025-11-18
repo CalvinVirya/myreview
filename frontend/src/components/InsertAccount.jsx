@@ -8,7 +8,61 @@ const InsertAccount = () => {
   const [email, setEmail] = useState(""); // declare
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [userImage, setUserImage] = useState(null);
   const [isSignIn, setIsSignIn] = useState(false);
+  
+  const HandleSubmit = async () => {
+    // --- VALIDASI ---
+    
+    // 1. Validasi Username (hanya untuk Sign Up)
+    if (!isSignIn && username.trim() === "") {
+      alert("Username is required.");
+      return;
+    }
+
+    // 2. Validasi Email wajib isi
+    if (email.trim() === "") {
+      alert("Email is required.");
+      return;
+    }
+
+    // 3. Validasi format Email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    // 4. Validasi Password wajib isi
+    if (password.trim() === "") {
+      alert("Password is required.");
+      return;
+    }
+
+    if (!isSignIn) {
+      // SIGN UP
+      insertUsers(username, email, password, userImage);
+    } else {
+      // SIGN IN
+      let response = await verifyUser(email, password);
+
+      if (response) {
+        sessionStorage.setItem("User", response);
+        axios.defaults.headers.common["Authorization"] = `Bearer ${response}`;
+        window.location.reload()
+      } else {
+        alert("Login failed");
+        return;
+      }
+
+    }
+
+    // Reset form setelah berhasil
+    setEmail("");
+    setPassword("");
+    setUsername("");
+    setReviewImage(null);
+  };
 
   return (
     <section className="flex flex-col gap-4 p-5">
@@ -32,6 +86,7 @@ const InsertAccount = () => {
               placeholder="Username"
               onChange={(e) => setUsername(e.target.value)}
               type="text"
+              required
             />
           </>
         )}
@@ -42,6 +97,7 @@ const InsertAccount = () => {
           placeholder="Email"
           onChange={(e) => setEmail(e.target.value)}
           type="email"
+          required
         />
         <label className="montserrat-regular mb-1 mt-3">Password</label>
         <input
@@ -50,28 +106,26 @@ const InsertAccount = () => {
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
           type="password"
+          required
         />
+
+        {isSignIn ? ("") : (
+          <>
+            <label className="montserrat-regular mb-1 mt-3">Image</label>
+            <input
+              className="p-2 cursor-pointer border-black rounded-md border montserrat-regular"
+              id="imageUpload"
+              accept="image/*"
+              onChange={(e) => setUserImage(e.target.files[0])}
+              type="file"
+            />
+          </>
+        )}
+        
       </form>
       <button
         type="submit"
-        onClick={async () => {
-          if (!isSignIn) {
-            insertUsers(username, email, password);
-          } else {
-            let response = await verifyUser(email, password);
-            if (response) {
-              sessionStorage.setItem("User", response);
-              axios.defaults.headers.common[
-                "Authorization"
-              ] = `Bearer ${response}`;
-            } else {
-              alert("Login failed");
-            }
-          }
-          setEmail("");
-          setPassword("");
-          setUsername("");
-        }}
+        onClick={HandleSubmit}
         className="p-2 bg-ivy rounded-2xl montserrat-regular text-first-frost">
         {isSignIn ? "Sign In" : "Sign Up"}
       </button>
@@ -81,19 +135,13 @@ const InsertAccount = () => {
           className="montserrat-medium text-ivy ml-1"
           onClick={() => {
             setIsSignIn(!isSignIn);
+            setEmail("");
+            setPassword("");
+            setUsername("");
           }}>
           {isSignIn ? "Sign Up" : "Sign In"}
         </button>
       </span>
-      <button
-        type=""
-        onClick={() => {
-          sessionStorage.clear();
-          // HandleDeleteSessions();
-        }}
-        className="w-35 h-14 bg-ivy rounded-2xl montserrat-regular text-first-frost">
-        Log Out
-      </button>
     </section>
   );
 };

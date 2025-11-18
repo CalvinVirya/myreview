@@ -23,6 +23,7 @@ const InsertReview = () => {
         />
         <input
           type="file"
+          accept="image/*"
           name="reviewImage"
           id="ReviewUploader"
           onChange={(e) => setReviewImage(e.target.files[0])}

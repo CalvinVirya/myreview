@@ -29,6 +29,7 @@ const RecentReviews = () => {
             uploadTIme={review.dateCreated}
             reviewImage={review.imageUrl}
             reviewTitle={review.title}
+            userImage={review.userImage}
             reviewDescription={review.description}
           />
         ))}

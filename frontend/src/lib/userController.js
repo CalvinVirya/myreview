@@ -10,14 +10,33 @@ async function fetchUsers() {
   }
 }
 
-async function insertUsers(name, email, password) {
+async function insertUsers(name, email, password, userImage) {
   let postObject = {
     name: name,
     email: email,
     password: password,
     joinDate: new Date(),
   };
-  axios.post("http://localhost:3000/users", postObject);
+  if (userImage) {
+    const url = await insertImage(userImage);
+    postObject.userImage = url;
+  }
+  await axios.post("http://localhost:3000/users", postObject);
+}
+
+async function insertImage(file) {
+  const formData = new FormData();
+  formData.append("image", file);
+  const response = await axios.post(
+    "http://localhost:3000/users/image",
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+  return response.data.url;
 }
 
 async function verifyUser(email, password) {
@@ -37,4 +56,4 @@ async function verifyUser(email, password) {
   }
 }
 
-export { fetchUsers, insertUsers, verifyUser };
+export { fetchUsers, insertUsers, insertImage, verifyUser };

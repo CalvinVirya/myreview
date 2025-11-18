@@ -4,6 +4,17 @@ const ObjectId = require("mongodb").ObjectId;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config({ path: "./config.env" });
+const multer = require("multer");
+const fs = require("fs");
+const cloudinary = require("cloudinary").v2;
+
+const storage = multer.diskStorage({
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
 
 let userRoutes = express.Router();
 const SALT_ROUNDS = 6;
@@ -29,29 +40,29 @@ userRoutes.route("/users/:id").get(async (req, res) => {
   }
 });
 
-userRoutes.route("/users").post(async (req, res) => {
+userRoutes.post("/users", async (req, res) => {
   let db = database.getDb();
 
-  const takenEmail = await db
-    .collection("users")
-    .findOne({ email: req.body.email });
-
+  const takenEmail = await db.collection("users").findOne({ email: req.body.email });
   if (takenEmail) {
-    res.json({ message: "Email is taken" });
-  } else {
-    const hash = await bcrypt.hash(req.body.password, SALT_ROUNDS);
-
-    let mongoObject = {
-      name: req.body.name,
-      email: req.body.email,
-      password: hash,
-      joinDate: new Date(),
-      reviews: [],
-    };
-    let data = await db.collection("users").insertOne(mongoObject);
-    res.json(data);
+    return res.json({ message: "Email is taken" });
   }
+
+  const hash = await bcrypt.hash(req.body.password, SALT_ROUNDS);
+
+  const userData = {
+    name: req.body.name,
+    email: req.body.email,
+    password: hash,
+    joinDate: new Date(),
+    userImage: req.body.userImage || null, // <--- ambil dari Cloudinary
+    reviews: [],
+  };
+
+  const data = await db.collection("users").insertOne(userData);
+  res.json({ data });
 });
+
 
 userRoutes.route("/users/login").post(async (req, res) => {
   let db = database.getDb();
@@ -59,11 +70,20 @@ userRoutes.route("/users/login").post(async (req, res) => {
   const user = await db.collection("users").findOne({ email: req.body.email });
 
   if (user) {
-    let confirmation = bcrypt.compare(req.body.password, user.password);
+    let confirmation = await bcrypt.compare(req.body.password, user.password);
     if (confirmation) {
-      const token = jwt.sign(user, process.env.SECRET_KEY, {
-        expiresIn: "24h",
-      });
+      const token = jwt.sign(
+        {
+          _id: user._id,
+          email: user.email,
+          name: user.name,
+          userImage: user.userImage,
+          joinDate: user.joinDate
+        },
+        process.env.SECRET_KEY,
+        { expiresIn: "24h" }
+      );
+
       res.json({ success: true, token });
     } else {
       res.json({ success: false, message: "Incorrect password" });
@@ -73,7 +93,7 @@ userRoutes.route("/users/login").post(async (req, res) => {
   }
 });
 
-userRoutes.route("/users:id").put(async (req, res) => {
+userRoutes.route("/users/:id").put(async (req, res) => {
   const id = req.params.id;
   let db = database.getDb();
   let mongoObject = {
@@ -97,5 +117,20 @@ userRoutes.route("/users/:id").delete(async (req, res) => {
   let data = await db.collection("users").deleteOne({ _id: new ObjectId(id) });
   res.json(data);
 });
+
+userRoutes
+  .route("/users/image")
+  .post(upload.single("image"), async (req, res) => {
+    const upload = await cloudinary.uploader.upload(req.file.path, {
+      folder: "user images",
+    });
+
+    fs.unlinkSync(req.file.path);
+
+    const url = cloudinary.url(upload.public_id, {
+      transformation: [{ quality: "auto", fetch_format: "auto" }],
+    });
+    res.json({ url });
+  });
 
 module.exports = userRoutes;

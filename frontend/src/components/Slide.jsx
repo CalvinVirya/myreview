@@ -64,6 +64,7 @@ function Slide({
             </button>
             {slides.map((_, i) => (
               <div
+                key={i}
                 className={`transition-all w-3 h-3 bg-white rounded-full ${
                   curr === i ? "p-2" : "opacity-50"
                 }`}

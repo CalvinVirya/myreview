@@ -1,8 +1,11 @@
 import React from "react";
 import { X } from "react-feather";
 import InsertAccount from "./InsertAccount";
+import LogOutAccount from "./logOutAccount";
 
 const Modal = ({ isVisible, onClose }) => {
+  const storedUser = sessionStorage.getItem("User");
+
   if (!isVisible) return null;
   return (
     <div className="fixed inset-0 bg-black/25 backdrop-blur-sm flex justify-center items-center z-2">
@@ -11,7 +14,7 @@ const Modal = ({ isVisible, onClose }) => {
           <X color="white" />
         </button>
         <div className="bg-white p-2 rounded">
-          <InsertAccount />
+          {storedUser ? (<><LogOutAccount /></>) : (<><InsertAccount /></>)}  
         </div>
       </div>
     </div>

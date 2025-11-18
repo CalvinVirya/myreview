@@ -46,6 +46,7 @@ reviewRoutes.route("/reviews").post(verifyToken, async (req, res) => {
     description: req.body.description,
     dateCreated: req.body.dateCreated,
     imageUrl: req.body.imageUrl,
+    userImage: req.user.userImage,
     userId: req.user._id,
     name: req.user.name,
   };

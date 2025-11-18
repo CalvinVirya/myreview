@@ -1,4 +1,5 @@
 import { Fragment, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 import logo from "../assets/logo.svg";
 import Modal from "./Modal";
 import { Link, useLocation } from "react-router-dom";
@@ -7,6 +8,17 @@ Modal;
 function Header() {
   const [showModal, setShowModal] = useState(false);
   const location = useLocation();
+  const storedUser = sessionStorage.getItem("User");
+
+  let userImage = null;
+  let userName = null;
+
+  // decode token kalo ada user login
+  if (storedUser) {
+    const decoded = jwtDecode(storedUser);
+    userImage = decoded.userImage;  // <--- AMBIL IMAGE USER
+    userName = decoded.name;
+  }
 
   const headerClassName =
     location.pathname === "/"
@@ -44,12 +56,25 @@ function Header() {
             </li>
           </ul>
         </nav>
-        <button
-          className="py-2 px-6 bg-ivy rounded-2xl montserrat-regular text-first-frost cursor-pointer"
-          onClick={() => setShowModal(true)}
-        >
-          Login
-        </button>
+        {storedUser ? (
+          // Jika user ada → tampilkan Log Out
+          <img
+            src={userImage}
+            alt="User"
+            className="w-15 h-15 rounded-full object-cover border border-white cursor-pointer"
+            onClick={() => setShowModal(true)}
+          />
+        ) : (
+          // Jika user belum login → tampilkan Login
+          <button
+            className="py-2 px-6 bg-ivy rounded-2xl montserrat-regular text-first-frost cursor-pointer"
+            onClick={() => setShowModal(true)}
+          >
+            Login
+          </button>
+        )}
+
+        
       </header>
       <Modal isVisible={showModal} onClose={() => setShowModal(false)} />
     </Fragment>
