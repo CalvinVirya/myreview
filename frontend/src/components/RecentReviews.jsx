@@ -25,11 +25,10 @@ const RecentReviews = () => {
           <ReviewBox
             key={review._id}
             username={review.name}
-            // profilePicture={review.users.profilePicture}
+            userImage={review.userImage}
             uploadTIme={review.dateCreated}
             reviewImage={review.imageUrl}
             reviewTitle={review.title}
-            userImage={review.userImage}
             reviewDescription={review.description}
           />
         ))}

@@ -2,8 +2,7 @@ import React from "react";
 import { ThumbsUp, Frown, Award } from "react-feather";
 
 const ReviewBox = ({
-  profilePicture = null,
-  userImage = "",
+  userImage = null,
   username = "No Username",
   uploadTIme = "No Upload Time",
   reviewTitle = "No Title",
