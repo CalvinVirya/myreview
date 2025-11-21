@@ -40,7 +40,7 @@ const InsertReview = () => {
           setReviewImage(null);
         }}
         className="w-35 h-14 bg-ivy rounded-2xl montserrat-regular text-first-frost">
-        Login
+        Add Review
       </button>
     </section>
   );
