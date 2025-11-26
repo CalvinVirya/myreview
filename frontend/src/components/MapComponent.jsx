@@ -17,7 +17,7 @@ const MapComponent = () => {
   const ZOOM_LEVEL = 30;
 
   return (
-    <MapContainer className="w-[20vw] h-[80vh]" center={center} zoom={ZOOM_LEVEL}>
+    <MapContainer className="w-[40vw] h-[80vh]" center={center} zoom={ZOOM_LEVEL}>
       <TileLayer
         url={osm.maptiler.url}
         attribution={osm.maptiler.attribution}

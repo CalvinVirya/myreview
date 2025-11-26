@@ -10,14 +10,24 @@ async function fetchBusiness() {
   }
 }
 
-async function insertBusiness(title, description, image, category, position, openTime, closeTime) {
+async function insertBusiness(
+  title,
+  description,
+  image,
+  category,
+  position,
+  address,
+  openTime,
+  closeTime
+) {
   let postObject = {
     title: title,
     description: description,
     category: category,
     position: position,
+    address: address,
     openTime: openTime,
-    closeTime: closeTime
+    closeTime: closeTime,
   };
   if (image) {
     const url = await insertImage(image);
@@ -41,4 +51,13 @@ async function insertImage(file) {
   return response.data.url;
 }
 
-export { fetchBusiness, insertBusiness, insertImage };
+async function reverseGeocoding(lat, lon) {
+  const response = await axios.get(
+    `http://localhost:3000/business/address?lat=${lat}&lon=${lon}`
+  );
+
+  console.log(response.data.display_name);
+  return response.data.display_name;
+}
+
+export { fetchBusiness, insertBusiness, insertImage, reverseGeocoding };

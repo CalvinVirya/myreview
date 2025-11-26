@@ -6,6 +6,7 @@ require("dotenv").config({ path: "./config.env" });
 const cloudinary = require("cloudinary").v2;
 const multer = require("multer");
 const fs = require("fs");
+const axios = require("axios");
 
 const storage = multer.diskStorage({
   filename: function (req, file, cb) {
@@ -27,6 +28,15 @@ businessRoutes.route("/business").get(async (req, res) => {
   }
 });
 
+businessRoutes.route("/business/address").get(async (req, res) => {
+  const { lat, lon } = req.query;
+  const response = await axios.get(
+    `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`
+  );
+
+  res.json(response.data);
+});
+
 businessRoutes.route("/business/:id").get(async (req, res) => {
   const id = req.params.id;
   let db = database.getDb();
@@ -40,22 +50,22 @@ businessRoutes.route("/business/:id").get(async (req, res) => {
 
 businessRoutes.route("/business").post(verifyToken, async (req, res) => {
   let db = database.getDb();
-  
+
   let mongoObject = {
     title: req.body.title,
     description: req.body.description,
     category: req.body.category,
     position: req.body.position,
+    address: req.body.address,
     openTime: req.body.openTime,
     closeTime: req.body.closeTime,
     imageUrl: req.body.imageUrl,
-    userId: req.user._id
+    userId: req.user._id,
   };
 
   let data = await db.collection("business").insertOne(mongoObject);
-  
+
   res.json(data);
-  
 });
 
 businessRoutes.route("/business/:id").put(async (req, res) => {

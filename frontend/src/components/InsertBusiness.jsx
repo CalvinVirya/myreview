@@ -4,10 +4,9 @@ import "leaflet/dist/leaflet.css";
 import osm from "../lib/osm-providers";
 import React, { useEffect, useState, useRef } from "react";
 import useGeolocation from "../lib/useGeolocation";
-import { insertBusiness } from "../lib/businessController"
+import { insertBusiness, reverseGeocoding } from "../lib/businessController";
 
 import FlyButton from "./FlyButton";
-
 
 const markerIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
@@ -24,21 +23,36 @@ const InsertBusiness = () => {
   const [businessImage, setBusinessImage] = useState(null);
   const [businessOpenTime, setBusinessOpenTime] = useState("00:00");
   const [businessCloseTime, setBusinessCloseTime] = useState("00:00");
+  const [businessAddress, setBusinessAddress] = useState("");
 
-
-  const [businessPosition, setBusinessPosition] = useState([-6.1900, 106.7900]);
+  const [businessPosition, setBusinessPosition] = useState([-6.19, 106.79]);
   const location = useGeolocation();
 
   useEffect(() => {
-    if (location.loaded && !location.error) {
-      setBusinessPosition([location.coordinates.lat, location.coordinates.lng]);
+    async function fetchAddress() {
+      if (location.loaded && !location.error) {
+        setBusinessPosition([
+          location.coordinates.lat,
+          location.coordinates.lng,
+        ]);
+
+        setBusinessAddress(
+          await reverseGeocoding(
+            location.coordinates.lat,
+            location.coordinates.lng
+          )
+        );
+      }
     }
+
+    fetchAddress();
   }, [location]);
 
   function LocationPicker() {
     useMapEvents({
-      click(e) {
+      async click(e) {
         setBusinessPosition([e.latlng.lat, e.latlng.lng]);
+        setBusinessAddress(await reverseGeocoding(e.latlng.lat, e.latlng.lng));
       },
     });
     return null;
@@ -46,9 +60,13 @@ const InsertBusiness = () => {
 
   const flyToUser = () => {
     if (!location.loaded || location.error || !mapRef.current) return;
-    mapRef.current.flyTo([location.coordinates.lat, location.coordinates.lng], 18, {
-      animate: true,
-    });
+    mapRef.current.flyTo(
+      [location.coordinates.lat, location.coordinates.lng],
+      18,
+      {
+        animate: true,
+      }
+    );
   };
 
   return (
@@ -60,7 +78,10 @@ const InsertBusiness = () => {
           className="w-full h-[45vh]"
           ref={mapRef} // ref disini
         >
-          <TileLayer url={osm.maptiler.url} attribution={osm.maptiler.attribution} />
+          <TileLayer
+            url={osm.maptiler.url}
+            attribution={osm.maptiler.attribution}
+          />
           <LocationPicker />
 
           <Marker position={businessPosition} icon={markerIcon} />
@@ -68,20 +89,21 @@ const InsertBusiness = () => {
           {location.loaded && !location.error && (
             <FlyButton location={location} />
           )}
-
-
         </MapContainer>
 
         <button
           onClick={flyToUser}
-          className="w-35 h-14 bg-ivy rounded-2xl montserrat-regular text-first-frost"
-        >
+          className="w-35 h-14 bg-ivy rounded-2xl montserrat-regular text-first-frost">
           My Location
         </button>
 
         <div className="absolute left-1/2 bottom-20 -translate-x-1/2 flex flex-row bg-white p-3 rounded-xl shadow-lg z-[9999]">
-          <p className="text-sm font-medium">Lat: {businessPosition[0]?.toFixed(6)}</p>
-          <p className="text-sm font-medium ml-3">Lng: {businessPosition[1]?.toFixed(6)}</p>
+          <p className="text-sm font-medium">
+            Lat: {businessPosition[0]?.toFixed(6)}
+          </p>
+          <p className="text-sm font-medium ml-3">
+            Lng: {businessPosition[1]?.toFixed(6)}
+          </p>
         </div>
       </div>
 
@@ -101,11 +123,17 @@ const InsertBusiness = () => {
         placeholder="Business Description"
       />
 
+      <textarea
+        className="border-black rounded-md border p-2 mb-2"
+        value={businessAddress}
+        onChange={(e) => setBusinessAddress(e.target.value)}
+        placeholder="Business Address"
+      />
+
       <select
         className="border-black rounded-md border p-2 mb-2"
         value={businessCategory}
-        onChange={(e) => setBusinessCategory(e.target.value)}
-      >
+        onChange={(e) => setBusinessCategory(e.target.value)}>
         <option value="Restaurant">Restaurant</option>
         <option value="Shopping">Shopping</option>
         <option value="Nightlife">Nightlife</option>
@@ -156,12 +184,12 @@ const InsertBusiness = () => {
             businessImage,
             businessCategory,
             businessPosition,
+            businessAddress,
             businessOpenTime,
             businessCloseTime
           );
         }}
-        className="w-35 h-14 bg-ivy rounded-2xl montserrat-regular text-first-frost"
-      >
+        className="w-35 h-14 bg-ivy rounded-2xl montserrat-regular text-first-frost">
         Add Business
       </button>
     </div>

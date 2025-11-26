@@ -5,6 +5,7 @@ import axios from "axios";
 const LogOutAccount = () => {
   const [user, setUser] = useState(null);
 
+  // pindahin ke lib bikin jadi function
   useEffect(() => {
     async function loadUser() {
       const token = sessionStorage.getItem("User");  // <--- FIX DI SINI
