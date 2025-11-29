@@ -27,7 +27,7 @@ const BusinessProfile = ({ businessId }) => {
         <div>
           <p className="font-semibold text-[1.5rem]">{business.title}</p>
           <div className="flex flex-row items-center">
-            <StarRating isEditable={false} showRating={4.3}/>
+            <StarRating isEditable={false} showRating={business.avgRating}/>
             <p>number of rating</p>
           </div>
         </div>

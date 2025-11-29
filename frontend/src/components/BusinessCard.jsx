@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import logo from "../assets/logo.svg";
 import { Link, useLocation } from "react-router-dom";
+import StarRating from "./StarRating";
 
 const BusinessCard = ({
   businessTitle = "No Name",
@@ -9,6 +10,7 @@ const BusinessCard = ({
   businessAddress = "No Address",
   businessCategory = "No Category",
   businessId = "No Id",
+  businessRating = 0,
 }) => {
   return (
     <Link to="/business-details" state={{ businessId }}>
@@ -20,7 +22,7 @@ const BusinessCard = ({
         />
         <div className="flex flex-col justify-center gap-[0.5rem]">
           <p className="font-semibold text-[1.5rem]">{businessTitle}</p>
-          <div className="w-50 h-5 bg-white"></div>
+          <StarRating isEditable={false} showRating={businessRating} />
           <p className="text-[0.875rem]">{businessAddress}</p>
           <div className="bg-first-frost rounded-[0.5rem]">
             <p className="text-[0.875rem] line-clamp-3 m-[1rem]">

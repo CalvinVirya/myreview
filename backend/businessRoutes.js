@@ -27,7 +27,7 @@ businessRoutes.route("/business").get(async (req, res) => {
   if (!userLat || !userLng) {
     return res.status(400).json({ message: "Missing userLat or userLng" });
   }
-  
+
   let data = await db
     .collection("business")
     .aggregate([
@@ -83,6 +83,10 @@ businessRoutes.route("/business").post(verifyToken, async (req, res) => {
     closeTime: req.body.closeTime,
     imageUrl: req.body.imageUrl,
     userId: req.user._id,
+    reviews: [],
+    avgRating: 0,
+    totalReviews: 0,
+    ratingSum: 0,
   };
 
   let data = await db.collection("business").insertOne(mongoObject);
@@ -101,6 +105,7 @@ businessRoutes.route("/business/:id").put(async (req, res) => {
       position: req.body.position,
       openTime: req.body.openTime,
       closeTime: req.body.closeTime,
+      reviews: req.body.reviews,
     },
   };
   let data = await db

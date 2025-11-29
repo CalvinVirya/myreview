@@ -43,6 +43,7 @@ const Search = () => {
             businessCategory={business.category}
             businessDescription={business.description}
             businessId={business._id}
+            businessRating={business.avgRating}
           />
         ))}
       </div>

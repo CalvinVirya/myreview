@@ -54,6 +54,30 @@ reviewRoutes.route("/reviews").post(verifyToken, async (req, res) => {
   };
 
   let data = await db.collection("reviews").insertOne(mongoObject);
+
+  let updateResult = await db.collection("business").updateOne(
+    { _id: new ObjectId(req.body.businessId) },
+    {
+      $push: { reviews: data.insertedId },
+      $inc: { totalReviews: 1, ratingSum: req.body.rating },
+      $set: {
+        avgRating: mongoObject.rating,
+      },
+    }
+  );
+
+  await db
+    .collection("business")
+    .updateOne({ _id: new ObjectId(req.body.businessId) }, [
+      {
+        $set: {
+          avgRating: {
+            $divide: ["$ratingSum", "$totalReviews"],
+          },
+        },
+      },
+    ]);
+
   res.json(data);
 });
 

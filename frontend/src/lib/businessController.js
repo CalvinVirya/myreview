@@ -72,4 +72,10 @@ async function reverseGeocoding(lat, lon) {
   return response.data.display_name;
 }
 
-export { fetchBusiness, insertBusiness, insertImage, reverseGeocoding, fetchBusinessId };
+export {
+  fetchBusiness,
+  insertBusiness,
+  insertImage,
+  reverseGeocoding,
+  fetchBusinessId,
+};
