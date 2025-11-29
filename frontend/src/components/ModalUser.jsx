@@ -3,7 +3,7 @@ import { X } from "react-feather";
 import InsertAccount from "./InsertAccount";
 import LogOutAccount from "./logOutAccount";
 
-const Modal = ({ isVisible, onClose }) => {
+const ModalUser = ({ isVisible, onClose }) => {
   const storedUser = sessionStorage.getItem("User");
 
   if (!isVisible) return null;
@@ -14,11 +14,19 @@ const Modal = ({ isVisible, onClose }) => {
           <X color="white" />
         </button>
         <div className="bg-white p-2 rounded">
-          {storedUser ? (<><LogOutAccount /></>) : (<><InsertAccount /></>)}  
+          {storedUser ? (
+            <>
+              <LogOutAccount />
+            </>
+          ) : (
+            <>
+              <InsertAccount />
+            </>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default Modal;
+export default ModalUser;

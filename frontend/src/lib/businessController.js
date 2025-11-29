@@ -1,12 +1,24 @@
 import axios from "axios";
 
-async function fetchBusiness() {
-  const response = await axios.get("http://localhost:3000/business");
+async function fetchBusiness(lat, lon) {
+  const response = await axios.get(
+    `http://localhost:3000/business?userLat=${lat}&userLng=${lon}`
+  );
   if (response.status === 200) {
     console.log(response.data);
     return response.data;
   } else {
     console.log("error");
+  }
+}
+
+async function fetchBusinessId(id) {
+  const response = await axios.get(`http://localhost:3000/business/${id}`);
+  if (response.status === 200) {
+    console.log(response.data);
+    return response.data;
+  } else {
+    console.error();
   }
 }
 
@@ -60,4 +72,4 @@ async function reverseGeocoding(lat, lon) {
   return response.data.display_name;
 }
 
-export { fetchBusiness, insertBusiness, insertImage, reverseGeocoding };
+export { fetchBusiness, insertBusiness, insertImage, reverseGeocoding, fetchBusinessId };

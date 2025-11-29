@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import logo from "../assets/logo.svg";
+import { Link, useLocation } from "react-router-dom";
 
 const BusinessCard = ({
   businessTitle = "No Name",
@@ -7,9 +8,10 @@ const BusinessCard = ({
   businessDescription = "No Description",
   businessAddress = "No Address",
   businessCategory = "No Category",
+  businessId = "No Id",
 }) => {
   return (
-    <div>
+    <Link to="/business-details" state={{ businessId }}>
       <div className="h-[20rem] w-[42.625rem] flex flex-row justify-center bg-khaki-linen p-4 rounded-[1rem] mb-[1rem]">
         <img
           src={businessImage}
@@ -30,7 +32,7 @@ const BusinessCard = ({
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

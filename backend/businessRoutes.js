@@ -20,7 +20,26 @@ let businessRoutes = express.Router();
 
 businessRoutes.route("/business").get(async (req, res) => {
   let db = database.getDb();
-  let data = await db.collection("business").find({}).toArray();
+
+  const userLat = parseFloat(req.query.userLat);
+  const userLng = parseFloat(req.query.userLng);
+
+  if (!userLat || !userLng) {
+    return res.status(400).json({ message: "Missing userLat or userLng" });
+  }
+  
+  let data = await db
+    .collection("business")
+    .aggregate([
+      {
+        $geoNear: {
+          near: { type: "Point", coordinates: [userLng, userLat] },
+          distanceField: "distance",
+          spherical: true,
+        },
+      },
+    ])
+    .toArray();
   if (data.length > 0) {
     res.json(data);
   } else {
@@ -55,7 +74,10 @@ businessRoutes.route("/business").post(verifyToken, async (req, res) => {
     title: req.body.title,
     description: req.body.description,
     category: req.body.category,
-    position: req.body.position,
+    position: {
+      type: "Point",
+      coordinates: [req.body.position[1], req.body.position[0]],
+    },
     address: req.body.address,
     openTime: req.body.openTime,
     closeTime: req.body.closeTime,

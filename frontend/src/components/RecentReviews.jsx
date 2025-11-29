@@ -30,6 +30,7 @@ const RecentReviews = () => {
             reviewImage={review.imageUrl}
             reviewTitle={review.title}
             reviewDescription={review.description}
+            rating={review.rating}
           />
         ))}
       </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import { ThumbsUp, Frown, Award } from "react-feather";
+import StarRating from "./StarRating";
 
 const ReviewBox = ({
   userImage = null,
@@ -8,6 +9,7 @@ const ReviewBox = ({
   reviewTitle = "No Title",
   reviewDescription = "No Description",
   reviewImage = null,
+  rating = 0,
 }) => {
   return (
     // TODO: disini masih ada yang harus dibenerin karena kalo dikecilin dia gepeng nanti
@@ -29,7 +31,7 @@ const ReviewBox = ({
 
       <div className="mx-6 mt-4 flex flex-col gap-2">
         <p className="montserrat-semibold">{reviewTitle}</p>
-        <div className="bg-gray-400 h-5"></div>
+        <StarRating isEditable={false} showRating={rating} />
         <p className="montserrat-regular text-sm line-clamp-3">
           {reviewDescription}
         </p>

@@ -10,11 +10,13 @@ async function fetchReviews() {
   }
 }
 
-async function insertReview(title, description, image) {
+async function insertReview(title, description, image, businessId, rating) {
   let postObject = {
     title: title,
     description: description,
     dateCreated: new Date(),
+    businessId: businessId,
+    rating: rating,
   };
   if (image) {
     const url = await insertImage(image);

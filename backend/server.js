@@ -15,7 +15,11 @@ app.use(reviews);
 app.use(users);
 app.use(businesses);
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   connect.connectToServer();
   console.log(`Server is running on port ${PORT}`);
+  const db = connect.getDb();
+
+  await db.collection("business").createIndex({ position: "2dsphere" });
+  console.log("2dsphere index ready!");
 });
