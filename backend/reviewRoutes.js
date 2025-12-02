@@ -19,7 +19,26 @@ let reviewRoutes = express.Router();
 
 reviewRoutes.route("/reviews").get(async (req, res) => {
   let db = database.getDb();
-  let data = await db.collection("reviews").find({}).toArray();
+  let data = await db
+    .collection("reviews")
+    .find({})
+    .sort({ dateCreated: -1 })
+    .toArray();
+  if (data.length > 0) {
+    res.json(data);
+  } else {
+    throw new Error("Data not found");
+  }
+});
+
+reviewRoutes.route("/reviews/:businessId").get(async (req, res) => {
+  const businessId = req.params.businessId;
+  let db = database.getDb();
+  let data = await db
+    .collection("reviews")
+    .find({ businessId: new ObjectId(businessId) })
+    .sort({ dateCreated: -1 })
+    .toArray();
   if (data.length > 0) {
     res.json(data);
   } else {
@@ -46,16 +65,23 @@ reviewRoutes.route("/reviews").post(verifyToken, async (req, res) => {
     description: req.body.description,
     dateCreated: req.body.dateCreated,
     imageUrl: req.body.imageUrl,
-    businessId: req.body.businessId,
+    businessId: new ObjectId(req.body.businessId),
     rating: req.body.rating,
     userImage: req.user.userImage,
-    userId: req.user._id,
+    userId: new ObjectId(req.user._id),
     name: req.user.name,
   };
 
   let data = await db.collection("reviews").insertOne(mongoObject);
 
-  let updateResult = await db.collection("business").updateOne(
+  let updateUserResult = await db.collection("users").updateOne(
+    { _id: new ObjectId(req.user._id) },
+    {
+      $push: { reviews: data.insertedId },
+    }
+  );
+
+  let updateBusinessResult = await db.collection("business").updateOne(
     { _id: new ObjectId(req.body.businessId) },
     {
       $push: { reviews: data.insertedId },

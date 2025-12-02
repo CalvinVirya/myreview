@@ -4,6 +4,7 @@ const cors = require("cors");
 const reviews = require("./reviewRoutes");
 const users = require("./userRoutes");
 const businesses = require("./businessRoutes");
+const messages = require("./messageRoutes");
 const multer = require("multer");
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(reviews);
 app.use(users);
 app.use(businesses);
+app.use(messages);
 
 app.listen(PORT, async () => {
   connect.connectToServer();

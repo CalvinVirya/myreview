@@ -10,6 +10,18 @@ async function fetchReviews() {
   }
 }
 
+async function fetchBusinessReviews(businessId) {
+  const response = await axios.get(
+    `http://localhost:3000/reviews/${businessId}`
+  );
+  if (response.status === 200) {
+    console.log(response.data);
+    return response.data;
+  } else {
+    console.log("error");
+  }
+}
+
 async function insertReview(title, description, image, businessId, rating) {
   let postObject = {
     title: title,
@@ -40,4 +52,4 @@ async function insertImage(file) {
   return response.data.url;
 }
 
-export { fetchReviews, insertReview, insertImage };
+export { fetchReviews, insertReview, insertImage, fetchBusinessReviews };

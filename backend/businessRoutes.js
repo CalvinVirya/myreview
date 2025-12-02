@@ -82,7 +82,7 @@ businessRoutes.route("/business").post(verifyToken, async (req, res) => {
     openTime: req.body.openTime,
     closeTime: req.body.closeTime,
     imageUrl: req.body.imageUrl,
-    userId: req.user._id,
+    userId: new ObjectId(req.user._id),
     reviews: [],
     avgRating: 0,
     totalReviews: 0,
