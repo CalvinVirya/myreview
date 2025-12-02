@@ -31,21 +31,24 @@ const Search = () => {
   }, [userLocation]);
 
   return (
-    <div className="flex">
-      <div className="flex flex-col items-center px-32">
+    <div className="bg-red-200 flex justify-between">
+      <div className="flex flex-col items-center">
         <Searchbar />
-        {business.map((business) => (
-          <BusinessCard
-            key={business._id}
-            businessTitle={business.title}
-            businessImage={business.imageUrl}
-            businessAddress={business.address}
-            businessCategory={business.category}
-            businessDescription={business.description}
-            businessId={business._id}
-            businessRating={business.avgRating}
-          />
-        ))}
+
+        <div className="mt-3">
+          {business.map((business) => (
+            <BusinessCard
+              key={business._id}
+              businessTitle={business.title}
+              businessImage={business.imageUrl}
+              businessAddress={business.address}
+              businessCategory={business.category}
+              businessDescription={business.description}
+              businessId={business._id}
+              businessRating={business.avgRating}
+            />
+          ))}
+        </div>
       </div>
 
       <MapComponent />
