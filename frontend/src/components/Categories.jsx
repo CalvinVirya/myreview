@@ -1,54 +1,62 @@
 import React from "react";
-import restaurant from "../assets/restaurant.png";
-import shopping from "../assets/shopping.png";
-import hotel from "../assets/hotel.png";
-import car from "../assets/car.png";
-import barber from "../assets/barber.png";
-import disco from "../assets/disco.png";
-import archer from "../assets/archer.png";
-import service from "../assets/service.png";
+import { 
+  Coffee, 
+  ShoppingBag, 
+  Home, 
+  Truck, 
+  Scissors, 
+  Music, 
+  Target, 
+  Tool 
+} from "react-feather";
 
 const Categories = () => {
+  const categoryList = [
+    { name: "Restaurants", icon: Coffee },
+    { name: "Shopping", icon: ShoppingBag },
+    { name: "Hotel", icon: Home },
+    { name: "Automotive", icon: Truck },
+    { name: "Beauty", icon: Scissors },
+    { name: "Night Life", icon: Music },
+    { name: "Active Life", icon: Target },
+    { name: "Services", icon: Tool },
+  ];
+
   return (
-    <section className="mx-12 flex flex-col gap-8 items-center">
-      <div className="flex justify-center">
-        <p className="montserrat-semibold text-3xl text-black mt-20">
-          Categories
-        </p>
-      </div>
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        <div className="border p-5 flex flex-col items-center rounded-lg hover:cursor-pointer min-w-35">
-          <img src={restaurant} alt="" className="w-16" />
-          <p className="montserrat-semibold mt-2">Restaurants</p>
+    <section className="py-20 px-6 bg-white">
+      <div className="max-w-6xl mx-auto">
+        
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl montserrat-bold text-serpentine mb-4">
+            Browse Categories
+          </h2>
+          <p className="text-gray-500 montserrat-regular max-w-2xl mx-auto">
+            Temukan berbagai layanan dan tempat menarik berdasarkan kategori yang Anda butuhkan.
+          </p>
+          <div className="w-24 h-1.5 bg-ivy mx-auto mt-6 rounded-full opacity-50"></div>
         </div>
-        <div className="border p-5 flex flex-col items-center rounded-lg hover:cursor-pointer min-w-35">
-          <img src={shopping} alt="" className="w-16" />
-          <p className="montserrat-semibold mt-2">Shopping</p>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          {categoryList.map((cat, index) => (
+            <div
+              key={index}
+              className="group bg-white border border-gray-100 p-8 rounded-2xl shadow-sm hover:shadow-xl hover:border-ivy/30 transition-all duration-300 transform hover:-translate-y-2 cursor-pointer flex flex-col items-center gap-4"
+            >
+              <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center text-gray-400 group-hover:bg-spring/30 group-hover:text-ivy transition-all duration-300">
+                <cat.icon 
+                  size={36} 
+                  strokeWidth={1.5}
+                  className="group-hover:scale-110 transition-transform duration-300" 
+                />
+              </div>
+
+              <p className="montserrat-semibold text-gray-700 text-lg group-hover:text-serpentine transition-colors duration-300">
+                {cat.name}
+              </p>
+            </div>
+          ))}
         </div>
-        <div className="border p-5 flex flex-col items-center rounded-lg hover:cursor-pointer min-w-35">
-          <img src={hotel} alt="" className="w-16" />
-          <p className="montserrat-semibold mt-2">Hotel</p>
-        </div>
-        <div className="border p-5 flex flex-col items-center rounded-lg hover:cursor-pointer min-w-35">
-          <img src={car} alt="" className="w-16" />
-          <p className="montserrat-semibold mt-2">Automotive</p>
-        </div>
-        <div className="border p-5 flex flex-col items-center rounded-lg hover:cursor-pointer min-w-35">
-          <img src={barber} alt="" className="w-16" />
-          <p className="montserrat-semibold mt-2">Beauty</p>
-        </div>
-        <div className="border p-5 flex flex-col items-center rounded-lg hover:cursor-pointer min-w-35">
-          <img src={disco} alt="" className="w-16" />
-          <p className="montserrat-semibold mt-2">Night Life</p>
-        </div>
-        <div className="border p-5 flex flex-col items-center rounded-lg hover:cursor-pointer min-w-35">
-          <img src={archer} alt="" className="w-16" />
-          <p className="montserrat-semibold mt-2">Active Life</p>
-        </div>
-        <div className="border p-5 flex flex-col items-center rounded-lg hover:cursor-pointer min-w-35">
-          <img src={service} alt="" className="w-16" />
-          <p className="montserrat-semibold mt-2">Services</p>
-        </div>
+
       </div>
     </section>
   );

@@ -7,7 +7,6 @@ const BussinessMode = () => {
   return (
     <>
       <Header />
-      <h1>Bussiness Mode</h1>
       <InsertBusiness />
       <Footer />
     </>

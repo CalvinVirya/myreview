@@ -1,108 +1,104 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import facebook_icon from "../assets/facebook_icon.png";
-import instagram_icon from "../assets/instagram_icon.png";
-import twitter_icon from "../assets/twitter_icon.png";
+import { Facebook, Instagram, Twitter, Mail, MapPin, Phone } from "react-feather";
 
 const Footer = () => {
   return (
-    <footer>
-      <div className="bg-first-frost p-3 sm:flex sm:gap-10 sm:justify-center mt-12">
-        {/* About Us */}
-        <div>
-          <p className="text-serpentine montserrat-medium text-xl mb-2">
-            About Us
-          </p>
-          <hr className="w-32 border-ivy my-2"/>
-          <p className="text-ivy montserrat-regular sm:max-w-2xl">
+    <footer className="bg-first-frost pt-16 pb-8 border-t border-white/50">
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+        <div className="space-y-6">
+          <h3 className="text-3xl montserrat-bold text-serpentine">MyReview</h3>
+          <p className="text-ivy montserrat-medium text-sm leading-relaxed text-justify">
             MyReview helps users discover and review local businesses with ease.
             From cafes to repair shops, you can explore listings, share
             experiences, and find trusted recommendations all in one place.
           </p>
         </div>
-        {/* Menu */}
+
         <div>
-          <p className="text-serpentine montserrat-medium text-xl mb-2 mt-3">
+          <h4 className="text-xl montserrat-bold text-serpentine mb-6 relative inline-block">
             Menu
-          </p>
-          <hr className="w-32 border-ivy my-2"/>
-          <div className="flex flex-col gap-1.5">
-            <Link to="/" className="text-ivy montserrat-regular">
-              Home
-            </Link>
-            <Link to="/business-mode" className="text-ivy montserrat-regular">
-              Business Mode
-            </Link>
-            <Link to="/about-us" className="text-ivy montserrat-regular">
-              About Us
-            </Link>
-            <Link to="/categories" className="text-ivy montserrat-regular">
-              Categories
-            </Link>
-            <Link to="/nearby" className="text-ivy montserrat-regular">
-              Nearby
-            </Link>
-            <Link to="/bookmark" className="text-ivy montserrat-regular">
-              Bookmark
-            </Link>
+            <span className="absolute -bottom-2 left-0 w-1/2 h-1 bg-ivy rounded-full"></span>
+          </h4>
+          <div className="flex flex-col space-y-3">
+            {["Home", "Business Mode", "About Us", "Categories", "Nearby", "Bookmark"].map((item, idx) => {
+              const path = item === "Home" ? "/" : `/${item.toLowerCase().replace(" ", "-")}`;
+              return (
+                <Link
+                  key={idx}
+                  to={path}
+                  className="text-ivy montserrat-medium hover:text-serpentine hover:translate-x-2 transition-all duration-300 inline-block w-fit"
+                >
+                  {item}
+                </Link>
+              );
+            })}
           </div>
         </div>
-        {/* Categories */}
+
         <div>
-          <div>
-            <p className="text-serpentine montserrat-medium text-xl mb-2 mt-3">
-              Categories
-            </p>
-            <hr className="w-32 border-ivy my-2"/>
-            <div className="flex flex-col gap-1.5">
-              <Link to="/" className="text-ivy montserrat-regular">
-                Restaurant
+          <h4 className="text-xl montserrat-bold text-serpentine mb-6 relative inline-block">
+            Categories
+            <span className="absolute -bottom-2 left-0 w-1/2 h-1 bg-ivy rounded-full"></span>
+          </h4>
+          <div className="flex flex-col space-y-3">
+            {["Restaurant", "Shopping", "Hotel", "Music"].map((item, idx) => (
+              <Link
+                key={idx}
+                to={item === "Restaurant" ? "/" : "/categories"}
+                className="text-ivy montserrat-medium hover:text-serpentine hover:translate-x-2 transition-all duration-300 inline-block w-fit"
+              >
+                {item}
               </Link>
-              <Link to="/business-mode" className="text-ivy montserrat-regular">
-                Shopping
-              </Link>
-              <Link to="/about-us" className="text-ivy montserrat-regular">
-                Hotel
-              </Link>
-              <Link to="/categories" className="text-ivy montserrat-regular">
-                Music
-              </Link>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h4 className="text-xl montserrat-bold text-serpentine mb-6 relative inline-block">
+            Contact Us
+            <span className="absolute -bottom-2 left-0 w-1/2 h-1 bg-ivy rounded-full"></span>
+          </h4>
+          <div className="space-y-4">
+            <div className="flex items-center gap-3 text-ivy group cursor-pointer">
+              <div className="p-2 bg-white rounded-full group-hover:bg-serpentine group-hover:text-white transition-colors duration-300">
+                <Mail size={16} />
+              </div>
+              <span className="montserrat-medium text-sm">support@myreview.com</span>
             </div>
-          </div>
-        </div>
-        {/* Follow Us */}
-        <div>
-          <div>
-            <p className="text-serpentine montserrat-medium text-xl mb-2 mt-3">
-              Follow Us
-            </p>
-            <hr className="w-32 border-ivy my-2"/>
-            <div className="flex gap-1.5">
-              <img
-                src={facebook_icon}
-                alt=""
-                className="w-6 h-6 hover:cursor-pointer"
-              />
-              <img
-                src={twitter_icon}
-                alt=""
-                className="w-6 h-6 hover:cursor-pointer"
-              />
-              <img
-                src={instagram_icon}
-                alt=""
-                className="w-6 h-6 hover:cursor-pointer"
-              />
+            <div className="flex items-center gap-3 text-ivy group cursor-pointer">
+              <div className="p-2 bg-white rounded-full group-hover:bg-serpentine group-hover:text-white transition-colors duration-300">
+                <MapPin size={16} />
+              </div>
+              <span className="montserrat-medium text-sm">Jakarta, Indonesia</span>
+            </div>
+            <div className="flex items-center gap-3 text-ivy group cursor-pointer">
+              <div className="p-2 bg-white rounded-full group-hover:bg-serpentine group-hover:text-white transition-colors duration-300">
+                <Phone size={16} />
+              </div>
+              <span className="montserrat-medium text-sm">+62 812 3456 7890</span>
+            </div>
+
+            <div className="flex gap-4 mt-8">
+              <a href="#" className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-ivy hover:bg-serpentine hover:text-white transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-1">
+                <Facebook size={20} />
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-ivy hover:bg-serpentine hover:text-white transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-1">
+                <Twitter size={20} />
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-ivy hover:bg-serpentine hover:text-white transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-1">
+                <Instagram size={20} />
+              </a>
             </div>
           </div>
         </div>
       </div>
-      {/* Copyright */}
-      <div className="bg-spring p-3">
-        <p className="text-center text-serpentine montserrat-regular">
-          Copyright &copy; 2025 MyReview. All Rights Reserved.
-        </p>
-      </div>
+
+
+      <p className="text-center text-serpentine montserrat-semibold text-sm">
+        Copyright &copy; 2025 MyReview. All Rights Reserved.
+      </p>
+
     </footer>
   );
 };

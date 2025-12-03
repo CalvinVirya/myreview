@@ -28,11 +28,13 @@ function Slide({
         <Header />
       </div>
       <div
-        className="flex transition-transform ease-out duration-500"
+        className="flex transition-transform ease-in-out duration-700"
         style={{ transform: `translateX(-${curr * 100}%)` }}
       >
         {slides}
       </div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80 pointer-events-none"></div>
+
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-5">
         <div className="flex flex-col items-center justify-center gap-4">
           <p className="text-[32px] montserrat-semibold text-first-frost sm:max-w-110 px-4">
@@ -55,28 +57,37 @@ function Slide({
           >
             Explore Now
           </button>
-          <div className="flex items-center gap-2">
+          
+          <div className="flex items-center gap-4 bg-white/10 backdrop-blur-md p-2 rounded-full border border-white/10 shadow-lg">
             <button
-              className="rounded-lg p-1 shadow bg-white/80 text-gray-800 hover:bg-white cursor-pointer"
+              className="p-1.5 rounded-full bg-white/10 hover:bg-white text-white hover:text-serpentine transition-all duration-300 cursor-pointer"
               onClick={prev}
             >
-              <ChevronLeft size={16} />
+              <ChevronLeft size={20} />
             </button>
-            {slides.map((_, i) => (
-              <div
-                key={i}
-                className={`transition-all w-3 h-3 bg-white rounded-full ${
-                  curr === i ? "p-2" : "opacity-50"
-                }`}
-              />
-            ))}
+
+            <div className="flex gap-2 px-2">
+              {slides.map((_, i) => (
+                <div
+                  key={i}
+                  className={`transition-all duration-500 rounded-full h-2 ${
+                    curr === i 
+                      ? "w-6 bg-ivy" 
+                      : "w-2 bg-white/40 cursor-pointer hover:bg-white/70"
+                  }`}
+                  onClick={() => setCurr(i)}
+                />
+              ))}
+            </div>
+
             <button
-              className="p-1 rounded-lg shadow bg-white/80 text-gray-800 hover:bg-white cursor-pointer"
+              className="p-1.5 rounded-full bg-white/10 hover:bg-white text-white hover:text-serpentine transition-all duration-300 cursor-pointer"
               onClick={next}
             >
-              <ChevronRight size={16} />
+              <ChevronRight size={20} />
             </button>
           </div>
+
           <div className="w-50 h-5 bg-white"></div>
         </div>
       </div>

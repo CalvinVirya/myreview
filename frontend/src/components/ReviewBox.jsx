@@ -1,5 +1,5 @@
 import React from "react";
-import { ThumbsUp, Frown, Award } from "react-feather";
+import { ThumbsUp, Smile, Award } from "react-feather";
 import StarRating from "./StarRating";
 
 const ReviewBox = ({
@@ -12,35 +12,65 @@ const ReviewBox = ({
   rating = 0,
 }) => {
   return (
-    // TODO: disini masih ada yang harus dibenerin karena kalo dikecilin dia gepeng nanti
-    <div className="border border-khaki-linen rounded-2xl">
-      <div className="flex items-center gap-2 py-6">
-        <img
-          className="rounded-full object-cover w-16 h-16 ml-6"
-          src={userImage}
-          alt=""
-        />
-        <div>
-          <p className="montserrat-regular">{username}</p>
-          <p className="text-chrysler-cottonwood-gray text-sm">{uploadTIme}</p>
+    <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full">
+      
+      <div className="flex items-center gap-4 mb-4">
+        <div className="relative flex-shrink-0">
+          <img
+            className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-md bg-gray-200"
+            src={userImage || "https://via.placeholder.com/150"}
+            alt={username}
+          />
+        </div>
+        <div className="flex-grow min-w-0">
+          <h4 className="montserrat-bold text-gray-800 text-sm truncate">{username}</h4>
+          <p className="text-xs text-gray-400 montserrat-medium truncate">{uploadTIme}</p>
         </div>
       </div>
-      {reviewImage && (
-        <img className="h-40 object-contain w-full" src={reviewImage} alt="" />
-      )}
 
-      <div className="mx-6 mt-4 flex flex-col gap-2">
-        <p className="montserrat-semibold">{reviewTitle}</p>
-        <StarRating isEditable={false} showRating={rating} />
-        <p className="montserrat-regular text-sm line-clamp-3">
+      <div className="mb-4 flex-grow">
+        <div className="flex items-center gap-2 mb-3">
+          <StarRating isEditable={false} showRating={rating} size={18} />
+          <span className="text-xs font-bold text-gray-400 mt-0.5">• {rating.toFixed(1)}</span>
+        </div>
+        
+        {reviewTitle && (
+           <h3 className="montserrat-bold text-lg text-gray-800 mb-2 leading-tight line-clamp-1">{reviewTitle}</h3>
+        )}
+        
+        <p className="text-gray-600 text-sm montserrat-regular leading-relaxed line-clamp-4">
           {reviewDescription}
         </p>
       </div>
-      <div className="flex justify-around h-18 items-center border-t-1 border-khaki-linen mt-4 rounded-b-2xl">
-        <ThumbsUp />
-        <Frown />
-        <Award />
+
+      {reviewImage && (
+        <div className="mb-5 rounded-2xl overflow-hidden h-48 w-full relative group cursor-pointer">
+          <img 
+            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" 
+            src={reviewImage} 
+            alt="Review" 
+          />
+          <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300"></div>
+        </div>
+      )}
+
+      <div className="mt-auto pt-4 border-t border-dashed border-gray-200 flex justify-between items-center px-1">
+        <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition-all duration-200 group">
+          <ThumbsUp size={16} className="group-hover:scale-110 transition-transform stroke-2"/>
+          <span className="text-xs font-bold montserrat-medium">Useful</span>
+        </button>
+        
+        <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition-all duration-200 group">
+          <Smile size={16} className="group-hover:scale-110 transition-transform stroke-2"/>
+          <span className="text-xs font-bold montserrat-medium">Funny</span>
+        </button>
+        
+        <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition-all duration-200 group">
+          <Award size={16} className="group-hover:scale-110 transition-transform stroke-2"/>
+          <span className="text-xs font-bold montserrat-medium">Cool</span>
+        </button>
       </div>
+
     </div>
   );
 };
