@@ -45,7 +45,7 @@ function Slide({
             French fries, and Golden Arches logo.
           </p>
         </div>
-        <div className="w-full flex justify-center items-center px-4 mb-3">
+        <div className="w-80 flex justify-center items-center px-4 mb-3">
           <Searchbar />
         </div>
       </div>

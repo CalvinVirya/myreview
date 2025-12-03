@@ -31,7 +31,7 @@ const Categories = () => {
             Browse Categories
           </h2>
           <p className="text-gray-500 montserrat-regular max-w-2xl mx-auto">
-            Temukan berbagai layanan dan tempat menarik berdasarkan kategori yang Anda butuhkan.
+            Explore diverse services and fascinating places, all organized by the categories that matter to you.
           </p>
           <div className="w-24 h-1.5 bg-ivy mx-auto mt-6 rounded-full opacity-50"></div>
         </div>

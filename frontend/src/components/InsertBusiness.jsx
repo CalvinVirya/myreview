@@ -91,9 +91,9 @@ const InsertBusiness = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           
-          <div className="space-y-6">
-            <div className="bg-white p-2 rounded-3xl shadow-lg border-4 border-white relative group">
-              <div className="h-[500px] w-full rounded-2xl overflow-hidden relative z-0">
+          <div className="space-y-6 h-full">
+            <div className="bg-white p-2 rounded-3xl shadow-lg border-4 border-white relative group h-full">
+              <div className="h-full min-h-[500px] w-full rounded-2xl overflow-hidden relative z-0">
                 <MapContainer
                   center={businessPosition}
                   zoom={18}
