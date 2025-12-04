@@ -6,6 +6,7 @@ require("dotenv").config({ path: "./config.env" });
 const cloudinary = require("cloudinary").v2;
 const multer = require("multer");
 const fs = require("fs");
+const { error } = require("console");
 
 const storage = multer.diskStorage({
   filename: function (req, file, cb) {
@@ -24,36 +25,39 @@ reviewRoutes.route("/reviews").get(async (req, res) => {
     .find({})
     .sort({ dateCreated: -1 })
     .toArray();
-  if (data.length > 0) {
-    res.json(data);
-  } else {
-    throw new Error("Data not found");
+  res.json(data);
+  if (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 
 reviewRoutes.route("/reviews/:businessId").get(async (req, res) => {
   const businessId = req.params.businessId;
-  let db = database.getDb();
-  let data = await db
-    .collection("reviews")
-    .find({ businessId: new ObjectId(businessId) })
-    .sort({ dateCreated: -1 })
-    .toArray();
-  if (data.length > 0) {
+
+  try {
+    let db = database.getDb();
+    let data = await db
+      .collection("reviews")
+      .find({ businessId: new ObjectId(businessId) })
+      .sort({ dateCreated: -1 })
+      .toArray();
     res.json(data);
-  } else {
-    throw new Error("Data not found");
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 
 reviewRoutes.route("/reviews/:id").get(async (req, res) => {
   const id = req.params.id;
-  let db = database.getDb();
-  let data = await db.collection("reviews").findOne({ _id: new ObjectId(id) });
-  if (Object.keys(data).length > 0) {
+
+  try {
+    let db = database.getDb();
+    let data = await db
+      .collection("reviews")
+      .findOne({ _id: new ObjectId(id) });
     res.json(data);
-  } else {
-    throw new Error("Data not found");
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 

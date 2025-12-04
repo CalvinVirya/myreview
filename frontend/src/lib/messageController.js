@@ -1,7 +1,6 @@
 import axios from "axios";
 
 async function insertMessage(message, businessId) {
-  console.log(businessId);
   let postObject = {
     message: message,
   };

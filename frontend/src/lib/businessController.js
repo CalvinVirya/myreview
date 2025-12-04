@@ -12,13 +12,37 @@ async function fetchBusiness(lat, lon) {
   }
 }
 
+async function fetchBusinessPrefix(lat, lon, prefix) {
+  const response = await axios.get(
+    `http://localhost:3000/business/search/${prefix}?userLat=${lat}&userLng=${lon}`
+  );
+  if (response.status === 200) {
+    console.log(response.data);
+    return response.data;
+  } else {
+    console.log("error");
+  }
+}
+
+async function fetchBusinessCategory(category) {
+  const response = await axios.get(
+    `http://localhost:3000/business/category/${category}`
+  );
+  if (response.status === 200) {
+    console.log(response.data);
+    return response.data;
+  } else {
+    console.log("error");
+  }
+}
+
 async function fetchBusinessId(id) {
   const response = await axios.get(`http://localhost:3000/business/${id}`);
   if (response.status === 200) {
     console.log(response.data);
     return response.data;
   } else {
-    console.error();
+    console.log("error");
   }
 }
 
@@ -78,4 +102,6 @@ export {
   insertImage,
   reverseGeocoding,
   fetchBusinessId,
+  fetchBusinessPrefix,
+  fetchBusinessCategory,
 };

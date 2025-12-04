@@ -19,31 +19,100 @@ const upload = multer({ storage: storage });
 let businessRoutes = express.Router();
 
 businessRoutes.route("/business").get(async (req, res) => {
-  let db = database.getDb();
-
   const userLat = parseFloat(req.query.userLat);
   const userLng = parseFloat(req.query.userLng);
 
-  if (!userLat || !userLng) {
-    return res.status(400).json({ message: "Missing userLat or userLng" });
-  }
+  try {
+    let db = database.getDb();
+    if (!userLat || !userLng) {
+      return res.status(400).json({ message: "Missing userLat or userLng" });
+    }
 
-  let data = await db
-    .collection("business")
-    .aggregate([
-      {
-        $geoNear: {
-          near: { type: "Point", coordinates: [userLng, userLat] },
-          distanceField: "distance",
-          spherical: true,
+    let data = await db
+      .collection("business")
+      .aggregate([
+        {
+          $geoNear: {
+            near: { type: "Point", coordinates: [userLng, userLat] },
+            distanceField: "distance",
+            spherical: true,
+          },
         },
-      },
-    ])
-    .toArray();
-  if (data.length > 0) {
+      ])
+      .toArray();
     res.json(data);
-  } else {
-    throw new Error("Data not found");
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+businessRoutes.route("/business/search/:prefix").get(async (req, res) => {
+  const userLat = parseFloat(req.query.userLat);
+  const userLng = parseFloat(req.query.userLng);
+  const prefix = req.params.prefix;
+
+  try {
+    let db = database.getDb();
+
+    if (!userLat || !userLng) {
+      return res.status(400).json({ message: "Missing userLat or userLng" });
+    }
+
+    let data = await db
+      .collection("business")
+      .aggregate([
+        {
+          $geoNear: {
+            near: { type: "Point", coordinates: [userLng, userLat] },
+            distanceField: "distance",
+            spherical: true,
+          },
+        },
+        {
+          $match: {
+            title: { $regex: `^${prefix}`, $options: "i" },
+          },
+        },
+      ])
+      .toArray();
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+businessRoutes.route("/business/category/:category").get(async (req, res) => {
+  const userLat = parseFloat(req.query.userLat);
+  const userLng = parseFloat(req.query.userLng);
+  const category = req.params.category;
+
+  try {
+    let db = database.getDb();
+
+    if (!userLat || !userLng) {
+      return res.status(400).json({ message: "Missing userLat or userLng" });
+    }
+
+    let data = await db
+      .collection("business")
+      .aggregate([
+        {
+          $geoNear: {
+            near: { type: "Point", coordinates: [userLng, userLat] },
+            distanceField: "distance",
+            spherical: true,
+          },
+        },
+        {
+          $match: {
+            category: category,
+          },
+        },
+      ])
+      .toArray();
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -91,26 +160,6 @@ businessRoutes.route("/business").post(verifyToken, async (req, res) => {
 
   let data = await db.collection("business").insertOne(mongoObject);
 
-  res.json(data);
-});
-
-businessRoutes.route("/business/:id").put(async (req, res) => {
-  const id = req.params.id;
-  let db = database.getDb();
-  let mongoObject = {
-    $set: {
-      title: req.body.title,
-      description: req.body.description,
-      category: req.body.category,
-      position: req.body.position,
-      openTime: req.body.openTime,
-      closeTime: req.body.closeTime,
-      reviews: req.body.reviews,
-    },
-  };
-  let data = await db
-    .collection("business")
-    .updateOne({ _id: new ObjectId(id) }, mongoObject);
   res.json(data);
 });
 

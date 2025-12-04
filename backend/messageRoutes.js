@@ -6,21 +6,37 @@ require("dotenv").config({ path: "./config.env" });
 
 let messageRoutes = express.Router();
 
-messageRoutes
-  .route("/message/:businessId")
-  .get(verifyToken, async (req, res) => {
-    const businessId = req.params.businessId;
+messageRoutes.route("/message/:businessId").get(async (req, res) => {
+  const businessId = req.params.businessId;
+
+  try {
     let db = database.getDb();
     let data = await db
       .collection("messages")
-      .find({ businessId: new ObjectId(businessId) })
+      .aggregate([
+        {
+          $match: {
+            businessId: new ObjectId(businessId),
+          },
+        },
+        {
+          $lookup: {
+            from: "users",
+            localField: "userId",
+            foreignField: "_id",
+            as: "user",
+          },
+        },
+        {
+          $unwind: "$user",
+        },
+      ])
       .toArray();
-    if (data.length > 0) {
-      res.json(data);
-    } else {
-      throw new Error("Data not found");
-    }
-  });
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 messageRoutes
   .route("/message/:businessId")
