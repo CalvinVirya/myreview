@@ -12,21 +12,10 @@ async function fetchBusiness(lat, lon) {
   }
 }
 
-async function fetchBusinessPrefix(lat, lon, prefix) {
+async function fetchBusinessPrefix(lat, lon, prefix, category) {
+  console.log(category);
   const response = await axios.get(
-    `http://localhost:3000/business/search/${prefix}?userLat=${lat}&userLng=${lon}`
-  );
-  if (response.status === 200) {
-    console.log(response.data);
-    return response.data;
-  } else {
-    console.log("error");
-  }
-}
-
-async function fetchBusinessCategory(category) {
-  const response = await axios.get(
-    `http://localhost:3000/business/category/${category}`
+    `http://localhost:3000/business/search?category=${category}&prefix=${prefix}&userLat=${lat}&userLng=${lon}`
   );
   if (response.status === 200) {
     console.log(response.data);
@@ -103,5 +92,4 @@ export {
   reverseGeocoding,
   fetchBusinessId,
   fetchBusinessPrefix,
-  fetchBusinessCategory,
 };

@@ -46,16 +46,27 @@ businessRoutes.route("/business").get(async (req, res) => {
   }
 });
 
-businessRoutes.route("/business/search/:prefix").get(async (req, res) => {
+businessRoutes.route("/business/search").get(async (req, res) => {
   const userLat = parseFloat(req.query.userLat);
   const userLng = parseFloat(req.query.userLng);
-  const prefix = req.params.prefix;
+  const prefix = req.query.prefix || "";
+  const category = req.query.category || "";
 
   try {
     let db = database.getDb();
 
     if (!userLat || !userLng) {
       return res.status(400).json({ message: "Missing userLat or userLng" });
+    }
+
+    const matchQuery = {};
+
+    if (prefix.trim() !== "") {
+      matchQuery.title = { $regex: `^${prefix}`, $options: "i" };
+    }
+
+    if (category.trim() !== "" && category !== "all") {
+      matchQuery.category = category;
     }
 
     let data = await db
@@ -69,44 +80,7 @@ businessRoutes.route("/business/search/:prefix").get(async (req, res) => {
           },
         },
         {
-          $match: {
-            title: { $regex: `^${prefix}`, $options: "i" },
-          },
-        },
-      ])
-      .toArray();
-    res.json(data);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-businessRoutes.route("/business/category/:category").get(async (req, res) => {
-  const userLat = parseFloat(req.query.userLat);
-  const userLng = parseFloat(req.query.userLng);
-  const category = req.params.category;
-
-  try {
-    let db = database.getDb();
-
-    if (!userLat || !userLng) {
-      return res.status(400).json({ message: "Missing userLat or userLng" });
-    }
-
-    let data = await db
-      .collection("business")
-      .aggregate([
-        {
-          $geoNear: {
-            near: { type: "Point", coordinates: [userLng, userLat] },
-            distanceField: "distance",
-            spherical: true,
-          },
-        },
-        {
-          $match: {
-            category: category,
-          },
+          $match: matchQuery,
         },
       ])
       .toArray();

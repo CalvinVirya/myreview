@@ -55,7 +55,6 @@ function Header() {
             <li><Link to="/" className={navItemClass}>Home</Link></li>
             <li><Link to="/business-mode" className={navItemClass}>Business Mode</Link></li>
             <li><Link to="/about-us" className={navItemClass}>About Us</Link></li>
-            <li><Link to="/categories" className={navItemClass}>Categories</Link></li>
             <li><Link to="/nearby" className={navItemClass}>Nearby</Link></li>
             <li><Link to="/bookmark" className={navItemClass}>Bookmark</Link></li>
           </ul>
