@@ -1,16 +1,16 @@
 import React from "react";
 import Header from "../components/Header";
 import BusinessProfile from "../components/BusinessProfile";
-import { useLocation } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 const BusinessDetails = () => {
-  const { state } = useLocation();
-  const businessId = state?.businessId;
+  const [searchParams] = useSearchParams();
+  const businessId = searchParams.get("businessId");
 
   return (
     <>
       <Header />
-      <BusinessProfile businessId={businessId}/>
+      <BusinessProfile businessId={businessId} />
     </>
   );
 };

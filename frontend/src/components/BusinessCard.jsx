@@ -13,7 +13,7 @@ const BusinessCard = ({
   businessRating = 0,
 }) => {
   return (
-    <Link to="/business-details" state={{ businessId }} className="block w-full group mb-4">
+    <Link to={`/business-details?businessId=${businessId}`} className="block w-full group mb-4">
       <div className="flex flex-col md:flex-row bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 h-auto md:h-52">
         
         <div className="w-full md:w-64 h-48 md:h-full relative shrink-0 overflow-hidden bg-gray-200">

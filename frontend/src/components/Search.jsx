@@ -6,13 +6,15 @@ import { fetchBusiness } from "../lib/businessController";
 import useGeolocation from "../lib/useGeolocation";
 import { MapPin, AlertCircle } from "react-feather";
 import { fetchBusinessPrefix } from "../lib/businessController";
+import { useSearchParams } from "react-router-dom";
 
 const Search = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [business, setBusiness] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [category, setCategory] = useState("");
-  const [prefix, setPrefix] = useState("");
+  const category = searchParams.get("category") || "";
+  const prefix = searchParams.get("prefix") || "";
   const location = useGeolocation();
 
   useEffect(() => {
@@ -41,7 +43,7 @@ const Search = () => {
   useEffect(() => {
     if (!userLocation) return;
 
-    const fetchByCategory = async () => {
+    const loadData = async () => {
       setIsLoading(true);
       try {
         const data = await fetchBusinessPrefix(
@@ -51,38 +53,19 @@ const Search = () => {
           category
         );
         setBusiness(data || []);
-      } catch (err) {
-        console.error("Category filter error:", err);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchByCategory();
-  }, [category]);
-
-  const handleSearchPrefix = async (prefix) => {
-    if (!userLocation) return;
-
-    try {
-      setIsLoading(true);
-      const data = await fetchBusinessPrefix(
-        userLocation[0],
-        userLocation[1],
-        prefix,
-        category
-      );
-      setBusiness(data || []);
-    } catch (err) {
-      console.error("Prefix search error:", err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    loadData();
+  }, [prefix, category, userLocation]);
 
   const handleSearch = (value) => {
-    setPrefix(value);
-    handleSearchPrefix(value);
+    setSearchParams({
+      prefix: value,
+      ...(category ? { category: category } : {}),
+    });
   };
 
   return (
@@ -99,7 +82,20 @@ const Search = () => {
             <select
               className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none transition-all appearance-none pr-12 montserrat-medium cursor-pointer"
               value={category}
-              onChange={(e) => setCategory(e.target.value)}>
+              onChange={(e) => {
+                const selectedCategory = e.target.value;
+
+                const newParams = {
+                  ...(prefix ? { prefix } : {}), 
+                };
+
+                if (selectedCategory !== "") {
+                  newParams.category = selectedCategory;
+                }
+
+                setSearchParams(newParams);
+                setCategory(selectedCategory);
+              }}>
               <option value="">All Categories</option>
               <option value="Restaurant">Restaurant</option>
               <option value="Shopping">Shopping</option>

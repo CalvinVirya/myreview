@@ -165,7 +165,12 @@ const BusinessProfile = ({ businessId }) => {
           <button className="border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2.5 rounded-md font-semibold text-sm flex items-center gap-2 transition-colors">
             <Camera size={16} /> Add Photo
           </button>
-          <button className="border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2.5 rounded-md font-semibold text-sm flex items-center gap-2 transition-colors">
+          <button
+            className="border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2.5 rounded-md font-semibold text-sm flex items-center gap-2 transition-colors"
+            onClick={() => {
+              navigator.clipboard.writeText(window.location.href);
+              alert("Link copied to clipboard!");
+            }}>
             <Share2 size={16} /> Share
           </button>
           <button className="border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2.5 rounded-md font-semibold text-sm flex items-center gap-2 transition-colors">
