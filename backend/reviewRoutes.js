@@ -19,14 +19,15 @@ const upload = multer({ storage: storage });
 let reviewRoutes = express.Router();
 
 reviewRoutes.route("/reviews").get(async (req, res) => {
-  let db = database.getDb();
-  let data = await db
-    .collection("reviews")
-    .find({})
-    .sort({ dateCreated: -1 })
-    .toArray();
-  res.json(data);
-  if (error) {
+  try {
+    let db = database.getDb();
+    let data = await db
+      .collection("reviews")
+      .find({})
+      .sort({ dateCreated: -1 })
+      .toArray();
+    res.json(data);
+  } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });

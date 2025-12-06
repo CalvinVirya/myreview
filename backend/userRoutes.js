@@ -43,7 +43,9 @@ userRoutes.route("/users/:id").get(async (req, res) => {
 userRoutes.post("/users", async (req, res) => {
   let db = database.getDb();
 
-  const takenEmail = await db.collection("users").findOne({ email: req.body.email });
+  const takenEmail = await db
+    .collection("users")
+    .findOne({ email: req.body.email });
   if (takenEmail) {
     return res.json({ message: "Email is taken" });
   }
@@ -57,12 +59,12 @@ userRoutes.post("/users", async (req, res) => {
     joinDate: new Date(),
     userImage: req.body.userImage || null, // <--- ambil dari Cloudinary
     reviews: [],
+    bookmarks: [],
   };
 
   const data = await db.collection("users").insertOne(userData);
   res.json({ data });
 });
-
 
 userRoutes.route("/users/login").post(async (req, res) => {
   let db = database.getDb();
@@ -78,7 +80,7 @@ userRoutes.route("/users/login").post(async (req, res) => {
           email: user.email,
           name: user.name,
           userImage: user.userImage,
-          joinDate: user.joinDate
+          joinDate: user.joinDate,
         },
         process.env.SECRET_KEY,
         { expiresIn: "24h" }
@@ -93,23 +95,23 @@ userRoutes.route("/users/login").post(async (req, res) => {
   }
 });
 
-userRoutes.route("/users/:id").put(async (req, res) => {
-  const id = req.params.id;
-  let db = database.getDb();
-  let mongoObject = {
-    $set: {
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password,
-      joinDate: req.body.joinDate,
-      reviews: req.body.reviews,
-    },
-  };
-  let data = await db
-    .collection("users")
-    .updateOne({ _id: new ObjectId(id) }, mongoObject);
-  res.json(data);
-});
+// userRoutes.route("/users/:id").put(async (req, res) => {
+//   const id = req.params.id;
+//   let db = database.getDb();
+//   let mongoObject = {
+//     $set: {
+//       name: req.body.name,
+//       email: req.body.email,
+//       password: req.body.password,
+//       joinDate: req.body.joinDate,
+//       reviews: req.body.reviews,
+//     },
+//   };
+//   let data = await db
+//     .collection("users")
+//     .updateOne({ _id: new ObjectId(id) }, mongoObject);
+//   res.json(data);
+// });
 
 userRoutes.route("/users/:id").delete(async (req, res) => {
   const id = req.params.id;
@@ -132,5 +134,41 @@ userRoutes
     });
     res.json({ url });
   });
+
+userRoutes.route("/users/bookmark").put(verifyToken, async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const bookmarkId = req.body.businessId;
+
+    let db = database.getDb();
+
+    const data = await db
+      .collection("users")
+      .updateOne(
+        { _id: new ObjectId(userId) },
+        { $addToSet: { bookmarks: new ObjectId(bookmarkId) } }
+      );
+
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+function verifyToken(req, res, next) {
+  const authHeaders = req.headers["authorization"];
+  const token = authHeaders && authHeaders.split(" ")[1];
+  if (!token) {
+    return res.status(401).json({ message: "Authentication token is missing" });
+  }
+
+  jwt.verify(token, process.env.SECRET_KEY, (error, user) => {
+    if (error) {
+      return res.status(403).json({ message: "Invalid token" });
+    }
+    req.user = user;
+    next();
+  });
+}
 
 module.exports = userRoutes;

@@ -12,6 +12,18 @@ async function fetchBusiness(lat, lon) {
   }
 }
 
+async function fetchBookmarkBusiness() {
+  const response = await axios.get(
+    `http://localhost:3000/business/many/bookmark`
+  );
+  if (response.status === 200) {
+    console.log(response.data);
+    return response.data;
+  } else {
+    console.log("error");
+  }
+}
+
 async function fetchBusinessPrefix(lat, lon, prefix, category) {
   console.log(category);
   const response = await axios.get(
@@ -92,4 +104,5 @@ export {
   reverseGeocoding,
   fetchBusinessId,
   fetchBusinessPrefix,
+  fetchBookmarkBusiness,
 };

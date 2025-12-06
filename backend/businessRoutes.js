@@ -137,6 +137,28 @@ businessRoutes.route("/business").post(verifyToken, async (req, res) => {
   res.json(data);
 });
 
+businessRoutes
+  .route("/business/many/bookmark")
+  .get(verifyToken, async (req, res) => {
+    try {
+      let db = database.getDb();
+
+      const user = await db
+        .collection("users")
+        .findOne({ _id: new ObjectId(req.user._id) });
+
+      const ids = user.bookmarks || [];
+
+      let data = await db
+        .collection("business")
+        .find({ _id: { $in: ids } })
+        .toArray();
+      res.json(data);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
 businessRoutes.route("/business/:id").delete(async (req, res) => {
   const id = req.params.id;
   let db = database.getDb();

@@ -48,7 +48,7 @@ async function verifyUser(email, password) {
     "http://localhost:3000/users/login",
     postObject
   );
-//   console.log(response.data.user);
+  //   console.log(response.data.user);
   if (response.data.success) {
     return response.data.token;
   } else {
@@ -56,4 +56,14 @@ async function verifyUser(email, password) {
   }
 }
 
-export { fetchUsers, insertUsers, insertImage, verifyUser };
+async function insertBookmark(businessId) {
+  let postObject = {
+    businessId: businessId,
+  };
+  const response = await axios.put(
+    "http://localhost:3000/users/bookmark",
+    postObject
+  );
+}
+
+export { fetchUsers, insertUsers, insertImage, verifyUser, insertBookmark };

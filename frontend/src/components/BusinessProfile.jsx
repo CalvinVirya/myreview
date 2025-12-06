@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { fetchBusinessId } from "../lib/businessController";
 import { fetchBusinessReviews } from "../lib/reviewController";
 import { insertMessage, fetchMessages } from "../lib/messageController";
+import { insertBookmark } from "../lib/userController";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -173,7 +174,12 @@ const BusinessProfile = ({ businessId }) => {
             }}>
             <Share2 size={16} /> Share
           </button>
-          <button className="border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2.5 rounded-md font-semibold text-sm flex items-center gap-2 transition-colors">
+          <button
+            className="border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2.5 rounded-md font-semibold text-sm flex items-center gap-2 transition-colors"
+            onClick={() => {
+              insertBookmark(business._id);
+              alert("Added to bookmark");
+            }}>
             <Bookmark size={16} /> Save
           </button>
         </div>
