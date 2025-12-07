@@ -103,6 +103,7 @@ const InsertBusiness = () => {
                     attribution={osm.maptiler.attribution}
                   />
                   <LocationPicker />
+                  <Marker position={businessPosition} icon={markerIcon} />
                 </MapContainer>
 
                 <div className="absolute top-4 right-4 z-[999]">
