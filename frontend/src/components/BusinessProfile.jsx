@@ -319,7 +319,7 @@ const BusinessProfile = ({ businessId }) => {
                             {msg.user.name || "Unknown User"}
                           </span>
                           <span className="text-gray-400 text-xs">
-                            {new Date(msg.dateCreated).toLocaleTimeString([], {
+                            {new Date(msg.messageDate).toLocaleTimeString([], {
                               hour: "2-digit",
                               minute: "2-digit",
                             })}

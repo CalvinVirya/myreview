@@ -1,32 +1,56 @@
-import React, { useState } from "react";
+import React from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import osm from "../lib/osm-providers";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-const markerIcon = new L.Icon({
+const userIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
-  iconSize: [35, 35],
-  iconAnchor: [16, 46],
-  popupAnchor: [0, -40]
+  iconSize: [40, 40]
 });
 
-const MapComponent = () => {
-  const [center] = useState({ lat: -6.2088, lng: 106.8456 });
-  const ZOOM_LEVEL = 13; 
+const businessIcon = new L.Icon({
+  iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
+  iconSize: [25, 25]
+});
+
+const MapComponent = ({ userLocation, business }) => {
+  const center = userLocation
+    ? { lat: userLocation[0], lng: userLocation[1] }
+    : { lat: -6.2088, lng: 106.8456 };
 
   return (
-    <MapContainer className="w-full h-full z-0" center={center} zoom={ZOOM_LEVEL}>
+    <MapContainer
+      key={userLocation ? userLocation.join(",") : "default"}
+      className="w-full h-full z-0"
+      center={center}
+      zoom={10}
+    >
       <TileLayer
         url={osm.maptiler.url}
         attribution={osm.maptiler.attribution}
       />
 
-      <Marker position={center} icon={markerIcon}>
-        <Popup>
-          <b>Ini lokasi Jakarta</b>
-        </Popup>
-      </Marker>
+      {userLocation && (
+        <Marker position={userLocation} icon={userIcon}>
+          <Popup>You're here</Popup>
+        </Marker>
+      )}
+
+      {business?.map((b) => {
+        const lng = b.position?.coordinates?.[0];
+        const lat = b.position?.coordinates?.[1];
+        if (!lat || !lng) return null;
+
+        return (
+          <Marker key={b._id} position={[lat, lng]} icon={businessIcon}>
+            <Popup>
+              <b>{b.title}</b><br />
+              {b.address}
+            </Popup>
+          </Marker>
+        );
+      })}
     </MapContainer>
   );
 };

@@ -25,46 +25,42 @@ const Search = () => {
   }, [location]);
 
   useEffect(() => {
-    if (userLocation && userLocation[0] && userLocation[1]) {
-      const getBusiness = async () => {
-        setIsLoading(true);
-        try {
-          const data = await fetchBusiness(userLocation[0], userLocation[1]);
-          setBusiness(data || []);
-        } catch (error) {
-          console.error("Failed to fetch business", error);
-        } finally {
-          setIsLoading(false);
-        }
-      };
-      getBusiness();
-    }
-  }, [userLocation]);
-
-  useEffect(() => {
-    if (!userLocation) return;
+    if (!userLocation || !userLocation[0]) return; // Pastikan lokasi valid
 
     const loadData = async () => {
       setIsLoading(true);
       try {
-        const data = await fetchBusinessPrefix(
-          userLocation[0],
-          userLocation[1],
-          prefix,
-          category
-        );
+        let data;
+        // Cek apakah ada filter aktif
+        const hasFilter = prefix || category;
+
+        if (hasFilter) {
+           // Asumsi: fetchBusinessPrefix bisa handle jika salah satu param kosong string
+           data = await fetchBusinessPrefix(
+            userLocation[0],
+            userLocation[1],
+            prefix,
+            category
+          );
+        } else {
+           // Default load (Discover Nearby tanpa filter)
+           data = await fetchBusiness(userLocation[0], userLocation[1]);
+        }
+        
         setBusiness(data || []);
+      } catch (e) {
+        console.error(e);
       } finally {
         setIsLoading(false);
       }
     };
 
     loadData();
-  }, [prefix, category, userLocation]);
+  }, [prefix, category, userLocation]); // Dependencies sudah benar
 
   const handleSearch = (value) => {
     setSearchParams({
-      ...(value.trim() ? { prefix: value } : {}),
+      prefix: value,
       ...(category ? { category } : {}),
     });
   };
@@ -187,7 +183,11 @@ const Search = () => {
         className={`${
           showMobileMap ? "flex" : "hidden"
         } md:flex flex-1 h-full relative bg-gray-200`}>
-        <MapComponent />
+        
+        <MapComponent 
+          userLocation={userLocation} 
+          business={business}
+        />
       </div>
 
       <div className="md:hidden absolute bottom-6 left-1/2 transform -translate-x-1/2 z-50">

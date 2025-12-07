@@ -3,6 +3,7 @@ import axios from "axios";
 async function insertMessage(message, businessId) {
   let postObject = {
     message: message,
+    messageDate: new Date(),
   };
   const response = await axios.post(
     `http://localhost:3000/message/${businessId}`,

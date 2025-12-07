@@ -45,6 +45,7 @@ messageRoutes
     let db = database.getDb();
     let mongoObject = {
       message: req.body.message,
+      messageDate: req.body.messageDate,
       userId: new ObjectId(req.user._id),
       businessId: new ObjectId(businessId),
     };
