@@ -40,11 +40,10 @@ function Slide({
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-6 px-4 pt-10 md:pt-20">
         <div className="flex flex-col items-center justify-center gap-3 md:gap-4 max-w-4xl text-center">
           <p className="text-3xl md:text-5xl lg:text-6xl montserrat-semibold text-first-frost leading-tight drop-shadow-lg">
-            McDonalds
+            My Review
           </p>
           <p className="text-sm md:text-lg montserrat-regular text-first-frost/90 max-w-xs md:max-w-2xl drop-shadow-md leading-relaxed px-2">
-            McDonald’s is a global fast-food chain famous for its hamburgers,
-            French fries, and Golden Arches logo.
+            MyReview is a community platform built to share authentic experiences and place reviews with others.
           </p>
         </div>
         <div className="w-full max-w-xs md:max-w-md lg:max-w-lg relative z-20">
@@ -52,9 +51,7 @@ function Slide({
         </div>
       </div>
       
-      <div className="absolute bottom-6 md:bottom-12 left-0 right-0 px-4 md:px-12 z-20">
-        <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-4 md:gap-0">
-          
+      <div className="absolute bottom-6 md:bottom-12 left-0 right-0 px-4 md:px-12 z-20 flex justify-center">
           <div className="flex items-center gap-4 bg-white/10 backdrop-blur-md p-2 rounded-full border border-white/10 shadow-xl">
             <button
               className="p-2 rounded-full bg-white/10 hover:bg-white text-white hover:text-serpentine transition-all duration-300 cursor-pointer"
@@ -84,9 +81,6 @@ function Slide({
               <ChevronRight size={20} />
             </button>
           </div>
-
-          <div className="hidden md:block w-32 lg:w-40 h-1 bg-transparent"></div>
-        </div>
       </div>
     </div>
   );
