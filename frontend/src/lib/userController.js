@@ -52,7 +52,7 @@ async function verifyUser(email, password) {
   if (response.data.success) {
     return response.data.token;
   } else {
-    throw new Error(response.statusText);
+    throw new Error(response.data.message);
   }
 }
 
