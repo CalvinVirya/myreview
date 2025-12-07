@@ -64,24 +64,23 @@ const Search = () => {
 
   const handleSearch = (value) => {
     setSearchParams({
-      prefix: value,
-      ...(category ? { category: category } : {}),
+      ...(value.trim() ? { prefix: value } : {}),
+      ...(category ? { category } : {}),
     });
   };
 
   return (
     <div className="flex flex-col md:flex-row h-[calc(100vh-80px)] overflow-hidden bg-gray-50 relative">
-      <div 
+      <div
         className={`${
           showMobileMap ? "hidden" : "flex"
-        } w-full md:flex md:w-[550px] lg:w-[700px] flex-col h-full bg-white shadow-xl z-10 flex-shrink-0 border-r border-gray-200 transition-all duration-300`}
-      >
+        } w-full md:flex md:w-[550px] lg:w-[700px] flex-col h-full bg-white shadow-xl z-10 flex-shrink-0 border-r border-gray-200 transition-all duration-300`}>
         <div className="p-6 border-b border-gray-100 bg-white sticky top-0 z-20">
           <h2 className="text-2xl montserrat-bold text-gray-800 mb-4">
             Discover Nearby
           </h2>
 
-          <Searchbar onSearch={handleSearch} />
+          <Searchbar onSearch={handleSearch} initialValue={prefix} />
 
           <div className="relative mt-4">
             <select
@@ -91,7 +90,7 @@ const Search = () => {
                 const selectedCategory = e.target.value;
 
                 const newParams = {
-                  ...(prefix ? { prefix } : {}), 
+                  ...(prefix ? { prefix } : {}),
                 };
 
                 if (selectedCategory !== "") {
@@ -184,15 +183,17 @@ const Search = () => {
         </div>
       </div>
 
-      <div className={`${showMobileMap ? "flex" : "hidden"} md:flex flex-1 h-full relative bg-gray-200`}>
+      <div
+        className={`${
+          showMobileMap ? "flex" : "hidden"
+        } md:flex flex-1 h-full relative bg-gray-200`}>
         <MapComponent />
       </div>
 
       <div className="md:hidden absolute bottom-6 left-1/2 transform -translate-x-1/2 z-50">
         <button
           onClick={() => setShowMobileMap(!showMobileMap)}
-          className="flex items-center gap-2 bg-gray-800 text-white px-6 py-3 rounded-full shadow-xl hover:bg-gray-700 transition-colors duration-300 font-montserrat-bold text-sm"
-        >
+          className="flex items-center gap-2 bg-gray-800 text-white px-6 py-3 rounded-full shadow-xl hover:bg-gray-700 transition-colors duration-300 font-montserrat-bold text-sm">
           {showMobileMap ? <List size={18} /> : <Map size={18} />}
           {showMobileMap ? "Show List" : "Map View"}
         </button>

@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Search } from "react-feather";
 
-const Searchbar = ({ onSearch }) => {
-  const [prefix, setPrefix] = useState("");
+const Searchbar = ({ onSearch, initialValue = "" }) => {
+  const [prefix, setPrefix] = useState(initialValue);
+
+  useEffect(() => {
+    setPrefix(initialValue);
+  }, [initialValue]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
