@@ -16,8 +16,6 @@ import {
   Grid 
 } from "react-feather";
 
-import FlyButton from "./FlyButton";
-
 const markerIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
   iconSize: [40, 40],
@@ -105,10 +103,6 @@ const InsertBusiness = () => {
                     attribution={osm.maptiler.attribution}
                   />
                   <LocationPicker />
-                  <Marker position={businessPosition} icon={markerIcon} />
-                  {location.loaded && !location.error && (
-                    <FlyButton location={location} />
-                  )}
                 </MapContainer>
 
                 <div className="absolute top-4 right-4 z-[999]">

@@ -55,13 +55,6 @@ function Slide({
       <div className="absolute bottom-6 md:bottom-12 left-0 right-0 px-4 md:px-12 z-20">
         <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-4 md:gap-0">
           
-          <button
-            className="w-full md:w-auto py-3 px-8 bg-ivy hover:bg-serpentine text-white rounded-full montserrat-semibold transition-all duration-300 shadow-lg active:scale-95"
-            onClick={() => alert(`Tombol pada slide indeks ke-${curr} diklik!`)}
-          >
-            Explore Now
-          </button>
-          
           <div className="flex items-center gap-4 bg-white/10 backdrop-blur-md p-2 rounded-full border border-white/10 shadow-xl">
             <button
               className="p-2 rounded-full bg-white/10 hover:bg-white text-white hover:text-serpentine transition-all duration-300 cursor-pointer"

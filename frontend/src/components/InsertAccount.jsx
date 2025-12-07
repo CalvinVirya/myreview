@@ -68,22 +68,6 @@ const InsertAccount = () => {
         </p>
       </div>
 
-      {/* Google Sign In */}
-      <button
-        type="button"
-        className="w-full flex justify-center items-center gap-3 p-3 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 hover:shadow-md transition-all duration-300 group"
-      >
-        <img src={GoogleIcon} alt="Google" className="w-5 h-5 group-hover:scale-110 transition-transform" />
-        <span className="montserrat-medium text-gray-600 text-sm">Sign in with Google</span>
-      </button>
-
-      {/* Divider */}
-      <div className="relative flex items-center w-full py-6">
-        <div className="flex-grow border-t border-gray-300"></div>
-        <span className="flex-shrink-0 mx-4 montserrat-regular text-xs text-gray-400 uppercase tracking-widest">Or</span>
-        <div className="flex-grow border-t border-gray-300"></div>
-      </div>
-
       {/* Form Section */}
       <form className="flex flex-col gap-4 w-full" onSubmit={HandleSubmit}>
         {!isSignIn && (
