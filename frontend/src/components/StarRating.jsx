@@ -63,7 +63,7 @@ const StarRating = ({
                 size={size}
                 color={activeColor}
                 fill={activeColor}
-                className="absolute top-0 left-0 z-10"
+                className="absolute top-0 left-0"
                 strokeWidth={0}
                 style={{
                   clipPath: `inset(0 ${100 - fillPercent}% 0 0)`,

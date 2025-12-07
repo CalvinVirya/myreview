@@ -2,25 +2,25 @@ import React from "react";
 import {
   Coffee,
   ShoppingBag,
-  Home,
-  Truck,
-  Scissors,
   Music,
   Target,
-  Tool,
+  Scissors,
+  Truck,
+  Home,
+  Book,
 } from "react-feather";
 import { Link } from "react-router-dom";
 
 const Categories = () => {
   const categoryList = [
-    { name: "Restaurants", icon: Coffee },
+    { name: "Restaurant", icon: Coffee },
     { name: "Shopping", icon: ShoppingBag },
-    { name: "Hotel", icon: Home },
-    { name: "Automotive", icon: Truck },
-    { name: "Beauty", icon: Scissors },
-    { name: "Night Life", icon: Music },
+    { name: "Nightlife", icon: Music },
     { name: "Active Life", icon: Target },
-    { name: "Services", icon: Tool },
+    { name: "Beauty & Spas", icon: Scissors },
+    { name: "Automotive", icon: Truck },
+    { name: "Home Services", icon: Home },
+    { name: "Education", icon: Book },
   ];
 
   return (

@@ -32,7 +32,6 @@ const Footer = () => {
               "Home",
               "Business Mode",
               "About Us",
-              "Categories",
               "Nearby",
               "Bookmark",
             ].map((item, idx) => {
@@ -58,7 +57,16 @@ const Footer = () => {
             <span className="absolute -bottom-2 left-0 w-1/2 h-1 bg-ivy rounded-full"></span>
           </h4>
           <div className="flex flex-col space-y-3">
-            {["Restaurant", "Shopping", "Hotel", "Music"].map((item, idx) => (
+            {[
+              "Restaurant",
+              "Shopping",
+              "Nightlife",
+              "Active Life",
+              "Beauty & Spas",
+              "Automotive",
+              "Home Services",
+              "Education",
+            ].map((item, idx) => (
               <Link
                 key={idx}
                 to={`/nearby?category=${item}`}

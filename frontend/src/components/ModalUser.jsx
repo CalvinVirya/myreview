@@ -8,7 +8,7 @@ const ModalUser = ({ isVisible, onClose }) => {
 
   if (!isVisible) return null;
   return (
-    <div className="fixed inset-0 bg-black/25 backdrop-blur-sm flex justify-center items-center z-2">
+    <div className="fixed inset-0 bg-black/25 backdrop-blur-sm flex justify-center items-start pt-32 z-2">
       <div className="w-[600px] flex flex-col gap-1">
         <button className="place-self-end" onClick={() => onClose()}>
           <X color="white" />

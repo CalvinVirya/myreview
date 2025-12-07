@@ -156,7 +156,7 @@ const BusinessProfile = ({ businessId }) => {
         </div>
       </div>
 
-      <div className="border-b border-gray-200 sticky top-0 bg-white z-40 shadow-sm">
+      <div className="border-b border-gray-200 sticky top-0 bg-white shadow-sm">
         <div className="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-center gap-3">
           <button
             onClick={() => setShowModal(true)}
