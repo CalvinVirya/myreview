@@ -4,7 +4,7 @@ import Searchbar from "./Searchbar";
 import BusinessCard from "./BusinessCard";
 import { fetchBusiness } from "../lib/businessController";
 import useGeolocation from "../lib/useGeolocation";
-import { MapPin, AlertCircle } from "react-feather";
+import { MapPin, AlertCircle, Map, List } from "react-feather";
 import { fetchBusinessPrefix } from "../lib/businessController";
 import { useSearchParams } from "react-router-dom";
 
@@ -13,6 +13,7 @@ const Search = () => {
   const [business, setBusiness] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [showMobileMap, setShowMobileMap] = useState(false);
   const category = searchParams.get("category") || "";
   const prefix = searchParams.get("prefix") || "";
   const location = useGeolocation();
@@ -69,8 +70,12 @@ const Search = () => {
   };
 
   return (
-    <div className="flex h-[calc(100vh-80px)] overflow-hidden bg-gray-50 relative">
-      <div className="w-full md:w-[550px] lg:w-[700px] flex flex-col h-full bg-white shadow-xl z-10 flex-shrink-0 border-r border-gray-200 transition-all duration-300">
+    <div className="flex flex-col md:flex-row h-[calc(100vh-80px)] overflow-hidden bg-gray-50 relative">
+      <div 
+        className={`${
+          showMobileMap ? "hidden" : "flex"
+        } w-full md:flex md:w-[550px] lg:w-[700px] flex-col h-full bg-white shadow-xl z-10 flex-shrink-0 border-r border-gray-200 transition-all duration-300`}
+      >
         <div className="p-6 border-b border-gray-100 bg-white sticky top-0 z-20">
           <h2 className="text-2xl montserrat-bold text-gray-800 mb-4">
             Discover Nearby
@@ -94,7 +99,6 @@ const Search = () => {
                 }
 
                 setSearchParams(newParams);
-                setCategory(selectedCategory);
               }}>
               <option value="">All Categories</option>
               <option value="Restaurant">Restaurant</option>
@@ -132,7 +136,7 @@ const Search = () => {
           )}
         </div>
 
-        <div className="flex-1 overflow-y-auto p-6 space-y-5 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+        <div className="flex-1 overflow-y-auto p-6 space-y-5 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent pb-24 md:pb-6">
           {!location.loaded ? (
             <div className="flex flex-col items-center justify-center h-40 text-gray-400">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-ivy mb-2"></div>
@@ -180,12 +184,18 @@ const Search = () => {
         </div>
       </div>
 
-      <div className="flex-1 h-full relative bg-gray-200">
+      <div className={`${showMobileMap ? "flex" : "hidden"} md:flex flex-1 h-full relative bg-gray-200`}>
         <MapComponent />
+      </div>
 
-        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-md z-[1000] border border-gray-200 md:hidden">
-          <span className="text-xs font-bold text-gray-700">Map View</span>
-        </div>
+      <div className="md:hidden absolute bottom-6 left-1/2 transform -translate-x-1/2 z-50">
+        <button
+          onClick={() => setShowMobileMap(!showMobileMap)}
+          className="flex items-center gap-2 bg-gray-800 text-white px-6 py-3 rounded-full shadow-xl hover:bg-gray-700 transition-colors duration-300 font-montserrat-bold text-sm"
+        >
+          {showMobileMap ? <List size={18} /> : <Map size={18} />}
+          {showMobileMap ? "Show List" : "Map View"}
+        </button>
       </div>
     </div>
   );

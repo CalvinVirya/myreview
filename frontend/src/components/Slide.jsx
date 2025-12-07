@@ -23,44 +23,48 @@ function Slide({
   }, []);
 
   return (
-    <div className="overflow-hidden relative">
-      <div className="absolute top-0 left-0 z-1">
+    <div className="overflow-hidden relative h-[600px] md:h-screen w-full bg-gray-900">
+      <div className="absolute top-0 left-0 right-0 z-50">
         <Header />
       </div>
+      
       <div
-        className="flex transition-transform ease-in-out duration-700"
+        className="flex transition-transform ease-in-out duration-700 h-full [&>*]:!w-full [&>*]:!h-full [&>*]:shrink-0 [&_img]:!h-full [&_img]:!w-full [&_img]:!object-cover"
         style={{ transform: `translateX(-${curr * 100}%)` }}
       >
         {slides}
       </div>
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80 pointer-events-none"></div>
+      
+      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/90 pointer-events-none"></div>
 
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-5">
-        <div className="flex flex-col items-center justify-center gap-4">
-          <p className="text-[32px] montserrat-semibold text-first-frost sm:max-w-110 px-4">
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-6 px-4 pt-10 md:pt-20">
+        <div className="flex flex-col items-center justify-center gap-3 md:gap-4 max-w-4xl text-center">
+          <p className="text-3xl md:text-5xl lg:text-6xl montserrat-semibold text-first-frost leading-tight drop-shadow-lg">
             McDonalds
           </p>
-          <p className="text-base montserrat-regular text-first-frost sm:max-w-110 text-center px-4">
+          <p className="text-sm md:text-lg montserrat-regular text-first-frost/90 max-w-xs md:max-w-2xl drop-shadow-md leading-relaxed px-2">
             McDonald’s is a global fast-food chain famous for its hamburgers,
             French fries, and Golden Arches logo.
           </p>
         </div>
-        <div className="w-80 flex justify-center items-center px-4 mb-3">
+        <div className="w-full max-w-xs md:max-w-md lg:max-w-lg relative z-20">
           <Searchbar />
         </div>
       </div>
-      <div className="absolute px-12 bottom-12 right-0 left-0">
-        <div className="flex flex-col-reverse gap-3 items-center sm:flex-row sm:justify-between">
+      
+      <div className="absolute bottom-6 md:bottom-12 left-0 right-0 px-4 md:px-12 z-20">
+        <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-4 md:gap-0">
+          
           <button
-            className="py-2 px-6 bg-ivy rounded-md montserrat-regular text-first-frost cursor-pointer w-full sm:w-auto"
+            className="w-full md:w-auto py-3 px-8 bg-ivy hover:bg-serpentine text-white rounded-full montserrat-semibold transition-all duration-300 shadow-lg active:scale-95"
             onClick={() => alert(`Tombol pada slide indeks ke-${curr} diklik!`)}
           >
             Explore Now
           </button>
           
-          <div className="flex items-center gap-4 bg-white/10 backdrop-blur-md p-2 rounded-full border border-white/10 shadow-lg">
+          <div className="flex items-center gap-4 bg-white/10 backdrop-blur-md p-2 rounded-full border border-white/10 shadow-xl">
             <button
-              className="p-1.5 rounded-full bg-white/10 hover:bg-white text-white hover:text-serpentine transition-all duration-300 cursor-pointer"
+              className="p-2 rounded-full bg-white/10 hover:bg-white text-white hover:text-serpentine transition-all duration-300 cursor-pointer"
               onClick={prev}
             >
               <ChevronLeft size={20} />
@@ -70,9 +74,9 @@ function Slide({
               {slides.map((_, i) => (
                 <div
                   key={i}
-                  className={`transition-all duration-500 rounded-full h-2 ${
+                  className={`transition-all duration-500 rounded-full h-2 shadow-sm ${
                     curr === i 
-                      ? "w-6 bg-ivy" 
+                      ? "w-8 bg-ivy" 
                       : "w-2 bg-white/40 cursor-pointer hover:bg-white/70"
                   }`}
                   onClick={() => setCurr(i)}
@@ -81,14 +85,14 @@ function Slide({
             </div>
 
             <button
-              className="p-1.5 rounded-full bg-white/10 hover:bg-white text-white hover:text-serpentine transition-all duration-300 cursor-pointer"
+              className="p-2 rounded-full bg-white/10 hover:bg-white text-white hover:text-serpentine transition-all duration-300 cursor-pointer"
               onClick={next}
             >
               <ChevronRight size={20} />
             </button>
           </div>
 
-          <div className="w-50 h-5 bg-white"></div>
+          <div className="hidden md:block w-32 lg:w-40 h-1 bg-transparent"></div>
         </div>
       </div>
     </div>
