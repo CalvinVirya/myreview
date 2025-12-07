@@ -20,14 +20,13 @@ const AboutUs = () => {
 
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto mt-16">
           <span className="inline-block py-1 px-4 rounded-full bg-ivy/30 border border-spring/50 text-spring text-sm montserrat-medium mb-4 tracking-wider uppercase">
-            Platform Komunitas No. #1
+            #1 Review Platform in Indonesia
           </span>
           <h1 className="text-4xl md:text-6xl montserrat-bold text-first-frost mb-6 leading-tight">
-            Menemukan Permata<br />Tersembunyi di Kotamu
+            Find What’s Hidden <br />in Your City
           </h1>
           <p className="text-lg md:text-xl montserrat-regular text-spring/90 max-w-2xl mx-auto leading-relaxed">
-            Lebih dari sekadar ulasan. Kami menghubungkan rasa, cerita, dan orang-orang
-            melalui pengalaman lokal yang autentik.
+            More than just reviews. We connect flavors, stories, and people through authentic local experiences.
           </p>
         </div>
       </div>
@@ -61,15 +60,13 @@ const AboutUs = () => {
               <div className="p-2 bg-spring/30 rounded-lg text-serpentine">
                 <Map size={24} />
               </div>
-              <span className="text-ivy montserrat-bold uppercase tracking-widest text-sm">Misi Kami</span>
+              <span className="text-ivy montserrat-bold uppercase tracking-widest text-sm">Our Mission</span>
             </div>
             <h2 className="text-3xl md:text-4xl montserrat-bold text-serpentine leading-tight">
-              Memandu Langkahmu ke <span className="text-ivy">Tempat Terbaik</span>
+              Guiding Every Step Toward the <span className="text-ivy">Best Experiences</span>
             </h2>
             <p className="text-chrysler-cottonwood-gray montserrat-regular text-lg leading-relaxed text-justify">
-              Kami percaya bahwa rekomendasi terbaik datang dari pengalaman nyata, bukan algoritma semata.
-              MyReview hadir untuk memastikan Anda tidak pernah salah pilih tempat, baik itu untuk makan malam romantis,
-              servis kendaraan darurat, atau sekadar mencari kopi pagi.
+              At MyReview, we believe the best recommendations come from real experiences, not just algorithms. Our mission is to empower communities across Indonesia by connecting people through authentic local stories, flavors, and places. With a trusted verification system and regularly updated business data, we ensure every review reflects genuine experiences—helping you discover the right spot, every time. Whether it’s a romantic dinner, urgent car service, or your morning coffee, MyReview guides your steps to the best local experiences.
             </p>
           </div>
           <div className="md:w-1/2 relative">
@@ -88,15 +85,13 @@ const AboutUs = () => {
               <div className="p-2 bg-spring/30 rounded-lg text-serpentine">
                 <Users size={24} />
               </div>
-              <span className="text-ivy montserrat-bold uppercase tracking-widest text-sm">Komunitas</span>
+              <span className="text-ivy montserrat-bold uppercase tracking-widest text-sm">Community</span>
             </div>
             <h2 className="text-3xl md:text-4xl montserrat-bold text-serpentine leading-tight">
-              Tumbuh Bersama <span className="text-ivy">UMKM Lokal</span>
+              Growing Together with <span className="text-ivy">Local Businesses</span>
             </h2>
             <p className="text-chrysler-cottonwood-gray montserrat-regular text-lg leading-relaxed text-justify">
-              Setiap ulasan yang Anda tulis adalah dukungan nyata bagi pemilik bisnis lokal.
-              Kami membangun ekosistem di mana bisnis kecil bisa bersinar berkat kualitas layanan mereka,
-              dan pengguna bisa saling membantu dengan informasi yang jujur dan transparan.
+              Every review you write is real support for local business owners. We are building an ecosystem where small businesses can shine through the quality of their services, and users can help each other with honest and transparent information.
             </p>
           </div>
           <div className="md:w-1/2 relative">
@@ -114,7 +109,7 @@ const AboutUs = () => {
       <div className="bg-first-frost py-20 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl montserrat-bold text-serpentine mb-4">Kenapa Memilih Kami?</h2>
+            <h2 className="text-3xl montserrat-bold text-serpentine mb-4">Why Choose Our Platform?</h2>
             <div className="w-20 h-1.5 bg-ivy mx-auto rounded-full"></div>
           </div>
 
@@ -123,9 +118,9 @@ const AboutUs = () => {
               <div className="w-14 h-14 bg-spring/20 rounded-full flex items-center justify-center text-ivy mb-6 group-hover:bg-ivy group-hover:text-white transition-colors">
                 <Star size={28} />
               </div>
-              <h3 className="text-xl montserrat-bold text-serpentine mb-3">Review Jujur</h3>
+              <h3 className="text-xl montserrat-bold text-serpentine mb-3">Reviews You Can Trust</h3>
               <p className="text-chrysler-cottonwood-gray text-sm leading-relaxed">
-                Sistem verifikasi kami memastikan setiap ulasan berasal dari pengalaman nyata pengguna.
+                Our trusted verification system guarantees reviews are based on real experiences.
               </p>
             </div>
 
@@ -133,9 +128,9 @@ const AboutUs = () => {
               <div className="w-14 h-14 bg-spring/20 rounded-full flex items-center justify-center text-ivy mb-6 group-hover:bg-ivy group-hover:text-white transition-colors">
                 <TrendingUp size={28} />
               </div>
-              <h3 className="text-xl montserrat-bold text-serpentine mb-3">Selalu Update</h3>
+              <h3 className="text-xl montserrat-bold text-serpentine mb-3">Stay Updated</h3>
               <p className="text-chrysler-cottonwood-gray text-sm leading-relaxed">
-                Data bisnis diperbarui secara berkala agar Anda tidak pernah datang ke tempat yang sudah tutup.
+                Our system keeps business data fresh, so you only discover places that are open.
               </p>
             </div>
 
@@ -143,9 +138,9 @@ const AboutUs = () => {
               <div className="w-14 h-14 bg-spring/20 rounded-full flex items-center justify-center text-ivy mb-6 group-hover:bg-ivy group-hover:text-white transition-colors">
                 <Heart size={28} />
               </div>
-              <h3 className="text-xl montserrat-bold text-serpentine mb-3">Dibuat dengan Cinta</h3>
+              <h3 className="text-xl montserrat-bold text-serpentine mb-3">Made with Love</h3>
               <p className="text-chrysler-cottonwood-gray text-sm leading-relaxed">
-                Platform ini dikembangkan dengan semangat untuk memajukan komunitas lokal Indonesia.
+                Developed with passion to advance local communities across Indonesia.
               </p>
             </div>
           </div>
@@ -156,13 +151,13 @@ const AboutUs = () => {
         <div className="max-w-3xl mx-auto">
           <Award size={48} className="mx-auto text-ivy mb-6" />
           <h2 className="text-3xl md:text-4xl montserrat-bold text-serpentine mb-6">
-            Siap Menjelajah?
+            Ready to Dive In?
           </h2>
           <p className="text-chrysler-cottonwood-gray text-lg mb-8">
-            Bergabunglah dengan ribuan pengguna lain dan mulai bagikan pengalaman unikmu hari ini.
+            Join thousands of users and start sharing your unique experiences today.
           </p>
           <button className="bg-serpentine hover:bg-ivy text-white py-3 px-8 rounded-full montserrat-semibold text-lg transition-colors shadow-lg hover:shadow-xl cursor-pointer">
-            Mulai Sekarang
+            Start Your Journey Now
           </button>
         </div>
       </div>
