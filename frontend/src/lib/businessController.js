@@ -57,20 +57,28 @@ async function insertBusiness(
   openTime,
   closeTime
 ) {
-  let postObject = {
-    title: title,
-    description: description,
-    category: category,
-    position: position,
-    address: address,
-    openTime: openTime,
-    closeTime: closeTime,
-  };
-  if (image) {
-    const url = await insertImage(image);
-    postObject.imageUrl = url;
+  try {
+    let postObject = {
+      title: title,
+      description: description,
+      category: category,
+      position: position,
+      address: address,
+      openTime: openTime,
+      closeTime: closeTime,
+    };
+    if (image) {
+      const url = await insertImage(image);
+      postObject.imageUrl = url;
+    }
+    const res = await axios.post("http://localhost:3000/business", postObject);
+    return { success: true, data: res.data };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.response?.data?.message || error.message,
+    };
   }
-  axios.post("http://localhost:3000/business", postObject);
 }
 
 async function insertImage(file) {

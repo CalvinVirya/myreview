@@ -7,6 +7,7 @@ import BusinessDetails from "./pages/BusinessDetails";
 import { Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   useEffect(() => {
@@ -15,14 +16,17 @@ function App() {
   }, []);
 
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/nearby" element={<Nearby />} />
-      <Route path="/business-mode" element={<BussinessMode />} />
-      <Route path="/bookmark" element={<Bookmark />} />
-      <Route path="/about-us" element={<AboutUs />} />
-      <Route path="/business-details" element={<BusinessDetails />} />
-    </Routes>
+    <>
+      <Toaster position="top-center" />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/nearby" element={<Nearby />} />
+        <Route path="/business-mode" element={<BussinessMode />} />
+        <Route path="/bookmark" element={<Bookmark />} />
+        <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/business-details" element={<BusinessDetails />} />
+      </Routes>
+    </>
   );
 }
 

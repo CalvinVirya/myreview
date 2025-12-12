@@ -23,18 +23,26 @@ async function fetchBusinessReviews(businessId) {
 }
 
 async function insertReview(title, description, image, businessId, rating) {
-  let postObject = {
-    title: title,
-    description: description,
-    dateCreated: new Date(),
-    businessId: businessId,
-    rating: rating,
-  };
-  if (image) {
-    const url = await insertImage(image);
-    postObject.imageUrl = url;
+  try {
+    let postObject = {
+      title: title,
+      description: description,
+      dateCreated: new Date(),
+      businessId: businessId,
+      rating: rating,
+    };
+    if (image) {
+      const url = await insertImage(image);
+      postObject.imageUrl = url;
+    }
+    const res = await axios.post("http://localhost:3000/reviews", postObject);
+    return { success: true, data: res.data };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.response?.data?.message || error.message,
+    };
   }
-  axios.post("http://localhost:3000/reviews", postObject);
 }
 
 async function insertImage(file) {

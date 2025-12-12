@@ -25,6 +25,7 @@ import {
   Smile,
   Navigation,
 } from "react-feather";
+import toast from "react-hot-toast";
 
 const markerIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
@@ -176,9 +177,17 @@ const BusinessProfile = ({ businessId }) => {
           </button>
           <button
             className="border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2.5 rounded-md font-semibold text-sm flex items-center gap-2 transition-colors"
-            onClick={() => {
-              insertBookmark(business._id);
-              alert("Added to bookmark");
+            onClick={async () => {
+              try {
+                const result = await insertBookmark(business._id);
+                if (result.success) {
+                  toast.success("Bookmark added successfully! 🎉");
+                } else {
+                  toast.error(result.message || "Failed to add bookmark!");
+                }
+              } catch (error) {
+                toast.error("Something went wrong!");
+              }
             }}>
             <Bookmark size={16} /> Save
           </button>

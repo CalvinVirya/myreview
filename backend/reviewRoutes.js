@@ -63,53 +63,67 @@ reviewRoutes.route("/reviews/:id").get(async (req, res) => {
 });
 
 reviewRoutes.route("/reviews").post(verifyToken, async (req, res) => {
-  let db = database.getDb();
+  try {
+    let db = database.getDb();
 
-  let mongoObject = {
-    title: req.body.title,
-    description: req.body.description,
-    dateCreated: req.body.dateCreated,
-    imageUrl: req.body.imageUrl,
-    businessId: new ObjectId(req.body.businessId),
-    rating: req.body.rating,
-    userImage: req.user.userImage,
-    userId: new ObjectId(req.user._id),
-    name: req.user.name,
-  };
+    let mongoObject = {
+      title: req.body.title,
+      description: req.body.description,
+      dateCreated: req.body.dateCreated,
+      imageUrl: req.body.imageUrl,
+      businessId: new ObjectId(req.body.businessId),
+      rating: req.body.rating,
+      userImage: req.user.userImage,
+      userId: new ObjectId(req.user._id),
+      name: req.user.name,
+    };
 
-  let data = await db.collection("reviews").insertOne(mongoObject);
+    let data = await db.collection("reviews").insertOne(mongoObject);
 
-  let updateUserResult = await db.collection("users").updateOne(
-    { _id: new ObjectId(req.user._id) },
-    {
-      $push: { reviews: data.insertedId },
-    }
-  );
-
-  let updateBusinessResult = await db.collection("business").updateOne(
-    { _id: new ObjectId(req.body.businessId) },
-    {
-      $push: { reviews: data.insertedId },
-      $inc: { totalReviews: 1, ratingSum: req.body.rating },
-      $set: {
-        avgRating: mongoObject.rating,
-      },
-    }
-  );
-
-  await db
-    .collection("business")
-    .updateOne({ _id: new ObjectId(req.body.businessId) }, [
+    let updateUserResult = await db.collection("users").updateOne(
+      { _id: new ObjectId(req.user._id) },
       {
+        $push: { reviews: data.insertedId },
+      }
+    );
+
+    let updateBusinessResult = await db.collection("business").updateOne(
+      { _id: new ObjectId(req.body.businessId) },
+      {
+        $push: { reviews: data.insertedId },
+        $inc: { totalReviews: 1, ratingSum: req.body.rating },
         $set: {
-          avgRating: {
-            $divide: ["$ratingSum", "$totalReviews"],
+          avgRating: mongoObject.rating,
+        },
+      }
+    );
+
+    await db
+      .collection("business")
+      .updateOne({ _id: new ObjectId(req.body.businessId) }, [
+        {
+          $set: {
+            avgRating: {
+              $divide: ["$ratingSum", "$totalReviews"],
+            },
           },
         },
+      ]);
+    return res.status(201).json({
+      success: true,
+      message: "Review added successfully",
+      data: {
+        insertedId: data.insertedId,
+        ...mongoObject,
       },
-    ]);
-
-  res.json(data);
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    });
+  }
 });
 
 reviewRoutes.route("/reviews/:id").put(async (req, res) => {
