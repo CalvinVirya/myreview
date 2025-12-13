@@ -18,6 +18,13 @@ app.use(messages);
 
 let isConnected = false;
 
+app.get("/", (req, res) => {
+  res.json({
+    status: "OK",
+    message: "MyReview API is running",
+  });
+});
+
 async function initDB() {
   if (!isConnected) {
     await connect.connectToServer();
