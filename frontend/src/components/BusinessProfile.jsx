@@ -24,6 +24,7 @@ import {
   Send,
   Smile,
   Navigation,
+  User,
 } from "react-feather";
 import toast from "react-hot-toast";
 
@@ -171,7 +172,7 @@ const BusinessProfile = ({ businessId }) => {
             className="border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2.5 rounded-md font-semibold text-sm flex items-center gap-2 transition-colors"
             onClick={() => {
               navigator.clipboard.writeText(window.location.href);
-              alert("Link copied to clipboard!");
+              toast.success("Link copied to clipboard");
             }}>
             <Share2 size={16} /> Share
           </button>
@@ -314,11 +315,17 @@ const BusinessProfile = ({ businessId }) => {
                   liveChat.map((msg, index) => (
                     <div key={index} className="flex items-start space-x-3">
                       {/* Avatar */}
-                      <img
-                        src={msg.user.userImage || "/default-avatar.png"}
-                        className="w-10 h-10 rounded-full object-cover"
-                        alt="avatar"
-                      />
+                      <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-gray-200">
+                        {msg?.user?.userImage ? (
+                          <img
+                            src={msg.user.userImage}
+                            className="w-full h-full object-cover"
+                            alt="avatar"
+                          />
+                        ) : (
+                          <User size={18} className="text-serpentine" />
+                        )}
+                      </div>
 
                       {/* Message Content */}
                       <div className="flex flex-col">

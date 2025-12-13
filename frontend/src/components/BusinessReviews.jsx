@@ -1,5 +1,6 @@
 import React from "react";
 import StarRating from "./StarRating";
+import { User } from "react-feather";
 
 const BusinessReviews = ({
   userImage = null,
@@ -14,7 +15,9 @@ const BusinessReviews = ({
     <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 h-full flex flex-col gap-4 hover:shadow-md transition-all duration-300">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100 border border-gray-100 shrink-0">
+          <div
+            className="w-12 h-12 rounded-full border-2 border-white shadow-md bg-gray-200
+                overflow-hidden flex items-center justify-center">
             {userImage ? (
               <img
                 src={userImage}
@@ -22,14 +25,16 @@ const BusinessReviews = ({
                 className="w-full h-full object-cover"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center bg-gray-200 text-gray-500 font-bold text-lg">
-                {username.charAt(0)}
-              </div>
+              <User size={20} className="text-serpentine" />
             )}
           </div>
           <div className="flex flex-col">
             <h4 className="font-bold text-gray-900 text-sm">{username}</h4>
-            <span className="text-xs text-gray-400">{new Date(uploadTIme).toLocaleDateString() !== "Invalid Date" ? new Date(uploadTIme).toLocaleDateString() : uploadTIme}</span>
+            <span className="text-xs text-gray-400">
+              {new Date(uploadTIme).toLocaleDateString() !== "Invalid Date"
+                ? new Date(uploadTIme).toLocaleDateString()
+                : uploadTIme}
+            </span>
           </div>
         </div>
         <div className="bg-yellow-50 px-2 py-1 rounded-lg border border-yellow-100/50">
@@ -38,7 +43,9 @@ const BusinessReviews = ({
       </div>
 
       <div className="flex-1">
-        <h3 className="font-bold text-gray-800 mb-2 text-base">{reviewTitle}</h3>
+        <h3 className="font-bold text-gray-800 mb-2 text-base">
+          {reviewTitle}
+        </h3>
         <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-line">
           {reviewDescription}
         </p>
