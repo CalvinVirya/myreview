@@ -56,14 +56,34 @@ async function verifyUser(email, password) {
   }
 }
 
-async function insertBookmark(businessId) {
-  let postObject = {
-    businessId: businessId,
-  };
-  const response = await axios.put(
-    "http://localhost:3000/users/bookmark",
-    postObject
-  );
+async function fetchActiveUser() {
+  const response = await axios.get(`http://localhost:3000/users/active`);
+  return response.data;
 }
 
-export { fetchUsers, insertUsers, insertImage, verifyUser, insertBookmark };
+async function insertBookmark(businessId) {
+  try {
+    let postObject = {
+      businessId: businessId,
+    };
+    const res = await axios.put(
+      "http://localhost:3000/users/bookmark",
+      postObject
+    );
+    return { success: true, data: res.data };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.response?.data?.message || error.message,
+    };
+  }
+}
+
+export {
+  fetchUsers,
+  insertUsers,
+  insertImage,
+  verifyUser,
+  insertBookmark,
+  fetchActiveUser,
+};

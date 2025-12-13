@@ -29,14 +29,13 @@ userRoutes.route("/users").get(async (req, res) => {
   }
 });
 
-userRoutes.route("/users/:id").get(async (req, res) => {
-  const id = req.params.id;
-  let db = database.getDb();
-  let data = await db.collection("users").findOne({ _id: new ObjectId(id) });
-  if (Object.keys(data).length > 0) {
-    res.json(data);
-  } else {
-    throw new Error("Data not found");
+userRoutes.route("/users/active").get(verifyToken, async (req, res) => {
+  try {
+    res.json(req.user);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Internal Server Error", error: error.message });
   }
 });
 
@@ -95,24 +94,6 @@ userRoutes.route("/users/login").post(async (req, res) => {
   }
 });
 
-// userRoutes.route("/users/:id").put(async (req, res) => {
-//   const id = req.params.id;
-//   let db = database.getDb();
-//   let mongoObject = {
-//     $set: {
-//       name: req.body.name,
-//       email: req.body.email,
-//       password: req.body.password,
-//       joinDate: req.body.joinDate,
-//       reviews: req.body.reviews,
-//     },
-//   };
-//   let data = await db
-//     .collection("users")
-//     .updateOne({ _id: new ObjectId(id) }, mongoObject);
-//   res.json(data);
-// });
-
 userRoutes.route("/users/:id").delete(async (req, res) => {
   const id = req.params.id;
   let db = database.getDb();
@@ -149,8 +130,11 @@ userRoutes.route("/users/bookmark").put(verifyToken, async (req, res) => {
         { $addToSet: { bookmarks: new ObjectId(bookmarkId) } }
       );
 
-    res.json(data);
-  } catch (err) {
+    res.json({
+      success: true,
+      data: data,
+    });
+  } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });

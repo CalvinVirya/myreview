@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { jwtDecode } from "jwt-decode";
-import axios from "axios";
 import { LogOut, Calendar, Mail } from "react-feather";
+import { fetchActiveUser } from "../lib/userController";
 
 const LogOutAccount = () => {
   const [user, setUser] = useState(null);
@@ -11,12 +10,9 @@ const LogOutAccount = () => {
       const token = sessionStorage.getItem("User");
       if (!token) return;
 
-      const decoded = jwtDecode(token);
-      const userId = decoded._id;
-
       try {
-        const res = await axios.get(`http://localhost:3000/users/${userId}`);
-        setUser(res.data);
+        const data = await fetchActiveUser()
+        setUser(data);
       } catch (err) {
         console.log("Failed to fetch user", err);
       }

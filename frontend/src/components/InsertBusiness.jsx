@@ -5,18 +5,17 @@ import osm from "../lib/osm-providers";
 import React, { useEffect, useState, useRef } from "react";
 import useGeolocation from "../lib/useGeolocation";
 import { insertBusiness, reverseGeocoding } from "../lib/businessController";
-import { 
-  MapPin, 
-  Type, 
-  AlignLeft, 
-  Clock, 
-  Image as ImageIcon, 
-  Navigation, 
+import {
+  MapPin,
+  Type,
+  AlignLeft,
+  Clock,
+  Image as ImageIcon,
+  Navigation,
   CheckCircle,
-  Grid 
+  Grid,
 } from "react-feather";
-
-import FlyButton from "./FlyButton";
+import toast from "react-hot-toast";
 
 const markerIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
@@ -90,7 +89,6 @@ const InsertBusiness = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          
           <div className="space-y-6 h-full">
             <div className="bg-white p-2 rounded-3xl shadow-lg border-4 border-white relative group h-full">
               <div className="h-full min-h-[500px] w-full rounded-2xl overflow-hidden relative z-0">
@@ -98,23 +96,20 @@ const InsertBusiness = () => {
                   center={businessPosition}
                   zoom={18}
                   className="w-full h-full"
-                  ref={mapRef}
-                >
+                  ref={mapRef}>
                   <TileLayer
                     url={osm.maptiler.url}
                     attribution={osm.maptiler.attribution}
                   />
                   <LocationPicker />
                   <Marker position={businessPosition} icon={markerIcon} />
-                  
                 </MapContainer>
 
                 <div className="absolute top-4 right-4 z-[999]">
                   <button
                     onClick={flyToUser}
                     className="bg-white text-serpentine p-3 rounded-full shadow-lg hover:bg-ivy hover:text-white transition-all duration-300 transform hover:scale-110 flex items-center justify-center"
-                    title="Use My Location"
-                  >
+                    title="Use My Location">
                     <Navigation size={20} />
                   </button>
                 </div>
@@ -122,9 +117,14 @@ const InsertBusiness = () => {
                 <div className="absolute bottom-4 left-4 right-4 z-[999]">
                   <div className="bg-white/90 backdrop-blur-sm p-4 rounded-xl shadow-lg border border-white/50">
                     <div className="flex items-start gap-3">
-                      <MapPin className="text-ivy mt-1 flex-shrink-0" size={18} />
+                      <MapPin
+                        className="text-ivy mt-1 flex-shrink-0"
+                        size={18}
+                      />
                       <div>
-                        <p className="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">Selected Location</p>
+                        <p className="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">
+                          Selected Location
+                        </p>
                         <p className="text-sm font-medium text-gray-800 line-clamp-2">
                           {businessAddress || "Tap on map to select address..."}
                         </p>
@@ -142,7 +142,6 @@ const InsertBusiness = () => {
 
           <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100 h-fit">
             <div className="space-y-6">
-              
               <div>
                 <label className="text-sm font-bold text-gray-700 mb-2 montserrat-bold flex items-center gap-2">
                   <Type size={16} className="text-ivy" /> Business Name
@@ -165,8 +164,7 @@ const InsertBusiness = () => {
                     <select
                       className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-ivy focus:bg-white transition-all appearance-none montserrat-medium cursor-pointer"
                       value={businessCategory}
-                      onChange={(e) => setBusinessCategory(e.target.value)}
-                    >
+                      onChange={(e) => setBusinessCategory(e.target.value)}>
                       <option value="Restaurant">Restaurant</option>
                       <option value="Shopping">Shopping</option>
                       <option value="Nightlife">Nightlife</option>
@@ -177,13 +175,24 @@ const InsertBusiness = () => {
                       <option value="Education">Education</option>
                     </select>
                     <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                      </svg>
                     </div>
                   </div>
                 </div>
 
                 <div>
-                   <label className="text-sm font-bold text-gray-700 mb-2 montserrat-bold flex items-center gap-2">
+                  <label className="text-sm font-bold text-gray-700 mb-2 montserrat-bold flex items-center gap-2">
                     <Clock size={16} className="text-ivy" /> Hours
                   </label>
                   <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-xl px-3 py-3">
@@ -237,12 +246,17 @@ const InsertBusiness = () => {
                     {businessImage ? (
                       <div className="flex items-center gap-2 text-ivy">
                         <CheckCircle size={24} />
-                        <p className="text-sm font-medium">{businessImage.name}</p>
+                        <p className="text-sm font-medium">
+                          {businessImage.name}
+                        </p>
                       </div>
                     ) : (
                       <>
                         <ImageIcon className="w-8 h-8 text-gray-400 mb-2" />
-                        <p className="text-sm text-gray-500"><span className="font-semibold">Click to upload</span> cover image</p>
+                        <p className="text-sm text-gray-500">
+                          <span className="font-semibold">Click to upload</span>{" "}
+                          cover image
+                        </p>
                       </>
                     )}
                   </div>
@@ -257,20 +271,33 @@ const InsertBusiness = () => {
 
               <button
                 type="submit"
-                onClick={() => {
-                  insertBusiness(
-                    businessTitle,
-                    businessDescription,
-                    businessImage,
-                    businessCategory,
-                    businessPosition,
-                    businessAddress,
-                    businessOpenTime,
-                    businessCloseTime
-                  );
+                onClick={async () => {
+                  try {
+                    const result = await insertBusiness(
+                      businessTitle,
+                      businessDescription,
+                      businessImage,
+                      businessCategory,
+                      businessPosition,
+                      businessAddress,
+                      businessOpenTime,
+                      businessCloseTime
+                    );
+                    if (result.success) {
+                      toast.success("Business added successfully! 🎉");
+
+                      // Reset form jika ingin
+                      setBusinessTitle("");
+                      setBusinessDescription("");
+                      setBusinessImage(null);
+                    } else {
+                      toast.error(result.message || "Failed to add business!");
+                    }
+                  } catch (error) {
+                    toast.error("Something went wrong!");
+                  }
                 }}
-                className="w-full py-4 bg-serpentine hover:bg-ivy text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 font-bold text-lg montserrat-bold flex items-center justify-center gap-2 mt-4"
-              >
+                className="w-full py-4 bg-serpentine hover:bg-ivy text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 font-bold text-lg montserrat-bold flex items-center justify-center gap-2 mt-4">
                 Submit Business
               </button>
             </div>

@@ -93,7 +93,13 @@ businessRoutes.route("/business/search").get(async (req, res) => {
 businessRoutes.route("/business/address").get(async (req, res) => {
   const { lat, lon } = req.query;
   const response = await axios.get(
-    `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`
+    `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`,
+    {
+      headers: {
+        "User-Agent": "MyApp/1.0 (contact: calvinviryayunardy@gmail.com)",
+        "Accept-Language": "en",
+      },
+    }
   );
 
   res.json(response.data);
@@ -111,30 +117,44 @@ businessRoutes.route("/business/:id").get(async (req, res) => {
 });
 
 businessRoutes.route("/business").post(verifyToken, async (req, res) => {
-  let db = database.getDb();
+  try {
+    let db = database.getDb();
 
-  let mongoObject = {
-    title: req.body.title,
-    description: req.body.description,
-    category: req.body.category,
-    position: {
-      type: "Point",
-      coordinates: [req.body.position[1], req.body.position[0]],
-    },
-    address: req.body.address,
-    openTime: req.body.openTime,
-    closeTime: req.body.closeTime,
-    imageUrl: req.body.imageUrl,
-    userId: new ObjectId(req.user._id),
-    reviews: [],
-    avgRating: 0,
-    totalReviews: 0,
-    ratingSum: 0,
-  };
+    let mongoObject = {
+      title: req.body.title,
+      description: req.body.description,
+      category: req.body.category,
+      position: {
+        type: "Point",
+        coordinates: [req.body.position[1], req.body.position[0]],
+      },
+      address: req.body.address,
+      openTime: req.body.openTime,
+      closeTime: req.body.closeTime,
+      imageUrl: req.body.imageUrl,
+      userId: new ObjectId(req.user._id),
+      reviews: [],
+      avgRating: 0,
+      totalReviews: 0,
+      ratingSum: 0,
+    };
 
-  let data = await db.collection("business").insertOne(mongoObject);
-
-  res.json(data);
+    let data = await db.collection("business").insertOne(mongoObject);
+    return res.status(201).json({
+      success: true,
+      message: "Business created successfully",
+      data: {
+        insertedId: data.insertedId,
+        ...mongoObject,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    });
+  }
 });
 
 businessRoutes
