@@ -1,12 +1,14 @@
 import axios from "axios";
 
+const url = "https://myreview-phi.vercel.app/message";
+
 async function insertMessage(message, businessId) {
   let postObject = {
     message: message,
     messageDate: new Date(),
   };
   const response = await axios.post(
-    `http://localhost:3000/message/${businessId}`,
+    `${url}/${businessId}`,
     postObject
   );
   if (response.status === 200) {
@@ -18,7 +20,7 @@ async function insertMessage(message, businessId) {
 
 async function fetchMessages(businessId) {
   const response = await axios.get(
-    `http://localhost:3000/message/${businessId}`
+    `${url}/${businessId}`
   );
   if (response.status === 200) {
     return response.data;

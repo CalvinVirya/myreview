@@ -1,8 +1,10 @@
 import axios from "axios";
 
+const url = "https://myreview-phi.vercel.app/business";
+
 async function fetchBusiness(lat, lon) {
   const response = await axios.get(
-    `http://localhost:3000/business?userLat=${lat}&userLng=${lon}`
+    `${url}?userLat=${lat}&userLng=${lon}`
   );
   if (response.status === 200) {
     console.log(response.data);
@@ -14,7 +16,7 @@ async function fetchBusiness(lat, lon) {
 
 async function fetchBookmarkBusiness() {
   const response = await axios.get(
-    `http://localhost:3000/business/many/bookmark`
+    `${url}/many/bookmark`
   );
   if (response.status === 200) {
     console.log(response.data);
@@ -27,7 +29,7 @@ async function fetchBookmarkBusiness() {
 async function fetchBusinessPrefix(lat, lon, prefix, category) {
   console.log(category);
   const response = await axios.get(
-    `http://localhost:3000/business/search?category=${category}&prefix=${prefix}&userLat=${lat}&userLng=${lon}`
+    `${url}/search?category=${category}&prefix=${prefix}&userLat=${lat}&userLng=${lon}`
   );
   if (response.status === 200) {
     console.log(response.data);
@@ -38,7 +40,7 @@ async function fetchBusinessPrefix(lat, lon, prefix, category) {
 }
 
 async function fetchBusinessId(id) {
-  const response = await axios.get(`http://localhost:3000/business/${id}`);
+  const response = await axios.get(`${url}/${id}`);
   if (response.status === 200) {
     console.log(response.data);
     return response.data;
@@ -71,7 +73,7 @@ async function insertBusiness(
       const url = await insertImage(image);
       postObject.imageUrl = url;
     }
-    const res = await axios.post("http://localhost:3000/business", postObject);
+    const res = await axios.post(url, postObject);
     return { success: true, data: res.data };
   } catch (error) {
     return {
@@ -85,7 +87,7 @@ async function insertImage(file) {
   const formData = new FormData();
   formData.append("image", file);
   const response = await axios.post(
-    "http://localhost:3000/business/image",
+    `${url}/image`,
     formData,
     {
       headers: {
@@ -98,7 +100,7 @@ async function insertImage(file) {
 
 async function reverseGeocoding(lat, lon) {
   const response = await axios.get(
-    `http://localhost:3000/business/address?lat=${lat}&lon=${lon}`
+    `${url}/address?lat=${lat}&lon=${lon}`
   );
 
   console.log(response.data.display_name);

@@ -1,7 +1,9 @@
 import axios from "axios";
 
+const url = "https://myreview-phi.vercel.app/reviews";
+
 async function fetchReviews() {
-  const response = await axios.get("http://localhost:3000/reviews");
+  const response = await axios.get(url);
   if (response.status === 200) {
     console.log(response.data);
     return response.data;
@@ -12,7 +14,7 @@ async function fetchReviews() {
 
 async function fetchBusinessReviews(businessId) {
   const response = await axios.get(
-    `http://localhost:3000/reviews/${businessId}`
+    `${url}/${businessId}`
   );
   if (response.status === 200) {
     console.log(response.data);
@@ -35,7 +37,7 @@ async function insertReview(title, description, image, businessId, rating) {
       const url = await insertImage(image);
       postObject.imageUrl = url;
     }
-    const res = await axios.post("http://localhost:3000/reviews", postObject);
+    const res = await axios.post(url, postObject);
     return { success: true, data: res.data };
   } catch (error) {
     return {
@@ -49,7 +51,7 @@ async function insertImage(file) {
   const formData = new FormData();
   formData.append("image", file);
   const response = await axios.post(
-    "http://localhost:3000/reviews/image",
+    `${url}/image`,
     formData,
     {
       headers: {

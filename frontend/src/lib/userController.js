@@ -1,7 +1,9 @@
 import axios from "axios";
 
+const url = "https://myreview-phi.vercel.app/users";
+
 async function fetchUsers() {
-  const response = await axios.get("http://localhost:3000/users");
+  const response = await axios.get(url);
   if (response.status === 200) {
     console.log(response.data);
     return response.data;
@@ -21,14 +23,14 @@ async function insertUsers(name, email, password, userImage) {
     const url = await insertImage(userImage);
     postObject.userImage = url;
   }
-  await axios.post("http://localhost:3000/users", postObject);
+  await axios.post(url, postObject);
 }
 
 async function insertImage(file) {
   const formData = new FormData();
   formData.append("image", file);
   const response = await axios.post(
-    "http://localhost:3000/users/image",
+    `${url}/image`,
     formData,
     {
       headers: {
@@ -45,7 +47,7 @@ async function verifyUser(email, password) {
     password: password,
   };
   const response = await axios.post(
-    "http://localhost:3000/users/login",
+    `${url}/login`,
     postObject
   );
   //   console.log(response.data.user);
@@ -57,7 +59,7 @@ async function verifyUser(email, password) {
 }
 
 async function fetchActiveUser() {
-  const response = await axios.get(`http://localhost:3000/users/active`);
+  const response = await axios.get(`${url}/active`);
   return response.data;
 }
 
@@ -67,7 +69,7 @@ async function insertBookmark(businessId) {
       businessId: businessId,
     };
     const res = await axios.put(
-      "http://localhost:3000/users/bookmark",
+      `${url}/bookmark`,
       postObject
     );
     return { success: true, data: res.data };
