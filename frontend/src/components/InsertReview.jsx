@@ -9,6 +9,9 @@ const InsertReview = ({
   onClose,
   businessId = "No Business Id",
   businessTitle = "No Title",
+  username = "No Username",
+  userImage = null,
+  onReviewAdded,
 }) => {
   const [reviewDescription, setReviewDescription] = useState("");
   const [reviewImage, setReviewImage] = useState(null);
@@ -22,6 +25,26 @@ const InsertReview = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const optimisticReview = {
+      _id: Date.now(), // temp id
+      title: businessTitle,
+      description: reviewDescription,
+      rating,
+      imageUrl: reviewImage ? URL.createObjectURL(reviewImage) : null,
+      dateCreated: new Date(),
+      name: username,
+      userImage: userImage,
+    };
+
+    // 🔥 update UI langsung
+    onReviewAdded?.(optimisticReview);
+
+    onClose();
+    setReviewDescription("");
+    setReviewImage(null);
+    setRating(0);
+
     try {
       const result = await insertReview(
         businessTitle,
@@ -31,19 +54,19 @@ const InsertReview = ({
         rating
       );
 
-      if (result.success) {
-        toast.success("Review added successfully! 🎉");
-
-        setReviewDescription("");
-        setReviewImage(null);
-        setRating(0);
-      } else {
-        toast.error(result.message || "Failed to add review!");
+      if (!result.success) {
+        throw new Error("Failed");
       }
+
+      toast.success("Review added successfully! 🎉");
     } catch (error) {
-      toast.error("Something went wrong!");
+      toast.error("Failed to add review");
+
+      // rollback kalau gagal
+      onReviewAdded?.((prev) =>
+        prev.filter((r) => r._id !== optimisticReview._id)
+      );
     }
-    onClose();
   };
 
   return (

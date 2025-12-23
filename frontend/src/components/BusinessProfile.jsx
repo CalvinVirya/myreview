@@ -3,6 +3,7 @@ import { fetchBusinessId } from "../lib/businessController";
 import { fetchBusinessReviews } from "../lib/reviewController";
 import { insertMessage, fetchMessages } from "../lib/messageController";
 import { insertBookmark } from "../lib/userController";
+import { fetchActiveUser } from "../lib/userController";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -42,6 +43,23 @@ const BusinessProfile = ({ businessId }) => {
   const [loading, setLoading] = useState(true);
   const [chatMessage, setChatMessage] = useState("");
   const [liveChat, setLiveChat] = useState([]);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    async function loadUser() {
+      const token = sessionStorage.getItem("User");
+      if (!token) return;
+
+      try {
+        const data = await fetchActiveUser();
+        setUser(data);
+      } catch (err) {
+        console.log("Failed to fetch user", err);
+      }
+    }
+
+    loadUser();
+  }, []);
 
   useEffect(() => {
     const getData = async () => {
@@ -73,11 +91,28 @@ const BusinessProfile = ({ businessId }) => {
     getMessages();
   }, [businessId]);
 
-  const handleSendMessage = (e) => {
+  const handleSendMessage = async (e) => {
     e.preventDefault();
-    if (chatMessage.trim()) {
-      insertMessage(chatMessage, businessId);
-      setChatMessage("");
+    if (!chatMessage.trim()) return;
+
+    const optimisticMessage = {
+      message: chatMessage,
+      messageDate: new Date(),
+      user: {
+        name: user?.name,
+        userImage: user?.userImage,
+      },
+    };
+
+    // UI langsung update
+    setLiveChat((prev) => [...prev, optimisticMessage]);
+    setChatMessage("");
+
+    try {
+      await insertMessage(chatMessage, businessId);
+    } catch (err) {
+      // rollback kalau gagal
+      setLiveChat((prev) => prev.filter((msg) => msg !== optimisticMessage));
     }
   };
 
@@ -424,6 +459,11 @@ const BusinessProfile = ({ businessId }) => {
         onClose={() => setShowModal(false)}
         businessId={business?._id}
         businessTitle={business?.title}
+        userImage={user?.userImage}
+        username={user?.name}
+        onReviewAdded={(newReview) => {
+          setReviews((prev) => [newReview, ...prev]);
+        }}
       />
     </main>
   );
