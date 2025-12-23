@@ -9,9 +9,10 @@ const InsertReview = ({
   onClose,
   businessId = "No Business Id",
   businessTitle = "No Title",
-  username = "No Username",
+  username,
   userImage = null,
   onReviewAdded,
+  onReviewFailed,
 }) => {
   const [reviewDescription, setReviewDescription] = useState("");
   const [reviewImage, setReviewImage] = useState(null);
@@ -26,18 +27,30 @@ const InsertReview = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!rating || !reviewDescription.trim()) {
+      toast.error("Please complete your review");
+      return;
+    }
+
+    if (!username) {
+      toast.error("Please login to write a review");
+      return;
+    }
+
+    const tempId = Date.now();
+
     const optimisticReview = {
-      _id: Date.now(), // temp id
+      _id: tempId,
       title: businessTitle,
       description: reviewDescription,
       rating,
       imageUrl: reviewImage ? URL.createObjectURL(reviewImage) : null,
       dateCreated: new Date(),
       name: username,
-      userImage: userImage,
+      userImage,
+      isOptimistic: true,
     };
 
-    // 🔥 update UI langsung
     onReviewAdded?.(optimisticReview);
 
     onClose();
@@ -54,18 +67,12 @@ const InsertReview = ({
         rating
       );
 
-      if (!result.success) {
-        throw new Error("Failed");
-      }
+      if (!result.success) throw new Error();
 
       toast.success("Review added successfully! 🎉");
-    } catch (error) {
+    } catch {
       toast.error("Failed to add review");
-
-      // rollback kalau gagal
-      onReviewAdded?.((prev) =>
-        prev.filter((r) => r._id !== optimisticReview._id)
-      );
+      onReviewFailed?.(tempId);
     }
   };
 

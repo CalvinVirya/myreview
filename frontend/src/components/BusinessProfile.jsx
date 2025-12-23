@@ -93,26 +93,31 @@ const BusinessProfile = ({ businessId }) => {
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
+
+    if (!user) {
+      toast.error("Please login to send message");
+      return;
+    }
+
     if (!chatMessage.trim()) return;
 
     const optimisticMessage = {
       message: chatMessage,
       messageDate: new Date(),
       user: {
-        name: user?.name,
-        userImage: user?.userImage,
+        name: user.name,
+        userImage: user.userImage,
       },
     };
 
-    // UI langsung update
     setLiveChat((prev) => [...prev, optimisticMessage]);
     setChatMessage("");
 
     try {
       await insertMessage(chatMessage, businessId);
     } catch (err) {
-      // rollback kalau gagal
       setLiveChat((prev) => prev.filter((msg) => msg !== optimisticMessage));
+      toast.error("Failed to send message");
     }
   };
 
@@ -461,8 +466,11 @@ const BusinessProfile = ({ businessId }) => {
         businessTitle={business?.title}
         userImage={user?.userImage}
         username={user?.name}
-        onReviewAdded={(newReview) => {
-          setReviews((prev) => [newReview, ...prev]);
+        onReviewAdded={(review) => {
+          setReviews((prev) => [review, ...prev]);
+        }}
+        onReviewFailed={(tempId) => {
+          setReviews((prev) => prev.filter((r) => r._id !== tempId));
         }}
       />
     </main>
